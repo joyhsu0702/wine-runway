@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>THE WINE RUNWAY｜汰暄酒業</title>
+<meta name="description" content="TAIXUAN ONLINE WINE｜一場關於葡萄酒的風格走秀。探索汰暄酒業精選酒款。">
+
+<!-- Facebook / LINE / 社群分享圖片 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="THE WINE RUNWAY｜汰暄酒業">
+<meta property="og:description" content="A curated wine collection. One bottle at a time.">
+<meta property="og:image" content="https://YOUR-DOMAIN/hero-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://YOUR-DOMAIN/">
+
+<meta name="theme-color" content="#11100f">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #11100f;
+  --paper: #eee9df;
+  --muted: #a49c91;
+  --wine: #762d3c;
+  --gold: #b99b69;
+  --line: rgba(238,233,223,.17);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  color: var(--paper);
+  background: var(--bg);
+  font-family: "DM Sans", "Noto Serif TC", sans-serif;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.topbar {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 22px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: normal;
+  background: linear-gradient(to bottom, rgba(17,16,15,.8), transparent);
+}
+
+.brand {
+  font-size: 12px;
+  letter-spacing: .22em;
+  line-height: 1.5;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+
+.top-link {
+  font-size: 10px;
+  letter-spacing: .18em;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 5px;
+}
+
+.hero {
+  min-height: 100svh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(118,45,60,.23), transparent 43%),
+    linear-gradient(135deg, #171514, #0d0c0b 70%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: min(70vw, 750px);
+  height: min(70vw, 750px);
+  border: 1px solid rgba(185,155,105,.18);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: min(52vw, 560px);
+  height: min(52vw, 560px);
+  border: 1px solid rgba(185,155,105,.12);
+  border-radius: 50%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 30px;
+}
+
+.hero-kicker {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: .4em;
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 8.5vw, 112px);
+  line-height: .98;
+  font-weight: 300;
+  letter-spacing: -.045em;
+  margin: 0;
+}
+
+.hero h1 span {
+  display: block;
+  font-size: .37em;
+  letter-spacing: .3em;
+  margin-top: 22px;
+  color: var(--gold);
+}
+
+.hero-sub {
+  margin-top: 42px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .2em;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: .25em;
+  color: var(--muted);
+}
+
+.scroll-cue::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 35px;
+  background: var(--gold);
+  margin: 13px auto 0;
+}
+
+/* 走秀主舞台 */
+
+.runway-section {
+  min-height: 100svh;
+  position: relative;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.runway-stage {
+  min-height: 100svh;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 1fr) 1fr;
+  align-items: center;
+  padding: 100px 7vw 85px;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(185,155,105,.10), transparent 34%),
+    linear-gradient(180deg, #11100f, #171514 55%, #100f0e);
+}
+
+.runway-stage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(transparent, rgba(185,155,105,.2), transparent);
+}
+
+.stage-light {
+  position: absolute;
+  width: min(55vw, 650px);
+  height: min(55vw, 650px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(238,233,223,.09), transparent 65%);
+  pointer-events: none;
+}
+
+.product-info {
+  position: relative;
+  z-index: 3;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.product-info .number {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: .3em;
+}
+
+.product-info h2 {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 400;
+  font-size: clamp(27px, 3.3vw, 48px);
+  line-height: 1.35;
+  margin: 23px 0 12px;
+}
+
+.product-info .english {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .16em;
+  line-height: 1.8;
+}
+
+.product-info .description {
+  margin-top: 28px;
+  color: #c1b9ae;
+  font-family: "Noto Serif TC", serif;
+  font-size: 13px;
+  line-height: 2;
+  max-width: 320px;
+}
+
+.product-info .price {
+  margin-top: 28px;
+  font-size: 14px;
+  letter-spacing: .12em;
+  color: var(--gold);
+}
+
+.bottle-wrap {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  z-index: 2;
+  height: min(68vh, 650px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(100px) scale(.88);
+  transition:
+    opacity 1s ease,
+    transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+
+.bottle-wrap::after {
+  content: "";
+  position: absolute;
+  bottom: 4%;
+  width: 70%;
+  height: 22px;
+  background: rgba(0,0,0,.65);
+  filter: blur(17px);
+  border-radius: 50%;
+}
+
+.bottle {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 35px rgba(0,0,0,.5));
+}
+
+.side-note {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  align-self: end;
+  position: relative;
+  z-index: 3;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .25em;
+  writing-mode: vertical-rl;
+  opacity: 0;
+  transition: opacity .8s ease .3s;
+}
+
+.runway-section.active .bottle-wrap {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.runway-section.active .product-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.runway-section.active .side-note {
+  opacity: 1;
+}
+
+.runway-section:nth-child(even) .runway-stage {
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(118,45,60,.17), transparent 38%),
+    linear-gradient(180deg, #151211, #100f0e);
+}
+
+.runway-progress {
+  position: fixed;
+  z-index: 45;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.progress-line {
+  width: 1px;
+  height: 100px;
+  background: rgba(238,233,223,.2);
+  position: relative;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 0%;
+  background: var(--gold);
+  transition: height .4s ease;
+}
+
+/* 酒款總覽 */
+
+.collection {
+  padding: 130px 7vw 150px;
+  background: #e9e3d8;
+  color: #211d1a;
+}
+
+.collection-heading {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.collection-heading .eyebrow {
+  color: #8a6e4d;
+  font-size: 10px;
+  letter-spacing: .35em;
+}
+
+.collection-heading h2 {
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(30px, 5vw, 58px);
+  font-weight: 400;
+  margin: 20px 0 12px;
+}
+
+.collection-heading p {
+  font-size: 11px;
+  color: #82786c;
+  letter-spacing: .16em;
+}
+
+.collection-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 42px 25px;
+}
+
+.collection-item {
+  cursor: pointer;
+  text-align: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.collection-image {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.35);
+  padding: 20px;
+  transition: background .3s ease, transform .3s ease;
+}
+
+.collection-item:hover .collection-image {
+  background: rgba(255,255,255,.75);
+  transform: translateY(-5px);
+}
+
+.collection-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.collection-item h3 {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 500;
+  font-size: 15px;
+  margin: 17px 0 6px;
+}
+
+.collection-item p {
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: #81766b;
+}
+
+/* 品牌結尾 */
+
+.closing {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 25px;
+  background:
+    radial-gradient(ellipse at center, rgba(118,45,60,.2), transparent 55%),
+    #11100f;
+}
+
+.closing .eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: .35em;
+}
+
+.closing h2 {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 400;
+  font-size: clamp(30px, 5vw, 58px);
+  line-height: 1.5;
+  margin: 25px 0;
+}
+
+.closing p {
+  max-width: 500px;
+  color: var(--muted);
+  font-family: "Noto Serif TC", serif;
+  font-size: 13px;
+  line-height: 2.2;
+}
+
+.contact-button {
+  display: inline-block;
+  margin-top: 35px;
+  padding: 16px 35px;
+  border: 1px solid var(--gold);
+  color: var(--paper);
+  font-size: 10px;
+  letter-spacing: .2em;
+  transition: background .3s, color .3s;
+}
+
+.contact-button:hover {
+  background: var(--gold);
+  color: #171514;
+}
+
+footer {
+  padding: 35px 20px 110px;
+  text-align: center;
+  color: #827a70;
+  font-size: 9px;
+  letter-spacing: .15em;
+  border-top: 1px solid var(--line);
+}
+
+.footer-brand {
+  color: var(--paper);
+  margin-bottom: 12px;
+  letter-spacing: .25em;
+}
+
+/* 固定詢價及警語 */
+
+.fixed-contact {
+  position: fixed;
+  z-index: 60;
+  right: 25px;
+  bottom: 75px;
+  padding: 14px 20px;
+  background: var(--wine);
+  color: white;
+  font-size: 10px;
+  letter-spacing: .16em;
+  box-shadow: 0 5px 25px rgba(0,0,0,.3);
+}
+
+.warning {
+  position: fixed;
+  z-index: 55;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+  padding: 10px 15px;
+  background: #080807;
+  border-top: 1px solid rgba(185,155,105,.35);
+  color: #d6cfc4;
+  font-family: "Noto Serif TC", serif;
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+
+@media (max-width: 760px) {
+  .topbar { padding: 17px 20px; }
+  .top-link { font-size: 9px; }
+
+  .runway-stage {
+    min-height: 100svh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(300px, 48vh) auto;
+    padding: 100px 25px 80px;
+    align-content: center;
+    gap: 5px;
+  }
+
+  .product-info {
+    grid-column: 1;
+    grid-row: 3;
+    text-align: center;
+    align-self: start;
+    padding-top: 15px;
+  }
+
+  .product-info h2 {
+    font-size: 27px;
+    margin: 12px 0 5px;
+  }
+
+  .product-info .description {
+    margin: 12px auto 0;
+    font-size: 12px;
+  }
+
+  .product-info .price { margin-top: 12px; }
+
+  .bottle-wrap {
+    grid-column: 1;
+    grid-row: 2;
+    height: 48vh;
+    min-height: 300px;
+  }
+
+  .side-note { display: none; }
+
+  .runway-progress {
+    right: 9px;
+    font-size: 8px;
+  }
+
+  .progress-line { height: 65px; }
+
+  .collection {
+    padding: 90px 20px 110px;
+  }
+
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 14px;
+  }
+
+  .collection-image { height: 190px; }
+  .collection-item h3 { font-size: 13px; }
+
+  .fixed-contact {
+    right: 15px;
+    bottom: 62px;
+    padding: 12px 16px;
+  }
+
+  .warning {
+    min-height: 40px;
+    gap: 16px;
+    font-size: 10px;
+  }
+
+  footer { padding-bottom: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#top">
+    TAIXUAN
+    <small>ONLINE WINE</small>
+  </a>
+  <a class="top-link" href="#collection">THE COLLECTION ↗</a>
+</header>
+
+<!-- 右側走秀進度 -->
+<div class="runway-progress" aria-hidden="true">
+  <span id="progress-current">01</span>
+  <div class="progress-line">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <span id="progress-total">12</span>
+</div>
+
+<!-- 開場 -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-kicker">TAIXUAN ONLINE WINE PRESENTS</div>
+    <h1>
+      THE WINE
+      <br>RUNWAY
+      <span>A CURATED WINE EXPERIENCE</span>
+    </h1>
+    <div class="hero-sub">ONE BOTTLE · ONE STORY · ONE MOMENT</div>
+  </div>
+  <div class="scroll-cue">SCROLL TO DISCOVER</div>
+</section>
+
+<!-- 走秀酒款由 JavaScript 自動建立 -->
+<main id="runway"></main>
+
+<!-- 酒款總覽 -->
+<section class="collection" id="collection">
+  <div class="collection-heading">
+    <div class="eyebrow">THE SELECTED COLLECTION</div>
+    <h2>本次走秀酒單</h2>
+    <p>TWELVE SELECTIONS · ONE DISTINCTIVE TASTE</p>
+  </div>
+  <div class="collection-grid" id="collection-grid"></div>
+</section>
+
+<!-- 品牌結尾 -->
+<section class="closing">
+  <div class="eyebrow">TAIXUAN ONLINE WINE</div>
+  <h2>好酒，不只是被看見。<br>更值得被細細品味。</h2>
+  <p>
+    從經典產區到風格酒款，<br>
+    汰暄酒業為每一次相遇，尋找值得珍藏的風味。
+  </p>
+  <a class="contact-button"
+     href="https://line.me/R/ti/p/@699htlkt"
+     target="_blank" rel="noopener">
+    CONTACT OUR WINE TEAM ↗
+  </a>
+</section>
+
+<footer>
+  <div class="footer-brand">TAIXUAN ONLINE WINE</div>
+  <div>汰暄酒業｜名莊珍藏・精品葡萄酒選品</div>
+  <div style="margin-top:12px">02-2365-0988</div>
+  <div style="margin-top:8px">台北市大安區新生南路三段20號之一 1F</div>
+  <div style="margin-top:8px">© TAIXUAN ONLINE WINE</div>
+</footer>
+
+<a class="fixed-contact"
+   href="https://line.me/R/ti/p/@699htlkt"
+   target="_blank" rel="noopener">
+  WINE CONSULTATION ↗
+</a>
+
+<div class="warning">
+  <span>禁止酒駕</span>
+  <span>飲酒過量，有害健康</span>
+</div>
+
+<script>
+const wines = [
+  {
+    image: "01-ca-dei-frati-i-frati-lugana.jpg",
+    name: "酒款 01",
+    english: "WINE SELECTION 01",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "02-gaia-de-grand-baril-2015.jpg",
+    name: "酒款 02",
+    english: "WINE SELECTION 02",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "03-penfolds-bin-389.jpg",
+    name: "酒款 03",
+    english: "WINE SELECTION 03",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "04-chateau-grand-medoc-2020.jpg",
+    name: "酒款 04",
+    english: "WINE SELECTION 04",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "05-greywacke-marlborough-chardonnay.jpg",
+    name: "酒款 05",
+    english: "WINE SELECTION 05",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "06-chateau-la-dominique.jpg",
+    name: "酒款 06",
+    english: "WINE SELECTION 06",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "07-domaine-du-pegau-cuvee-reservee.jpg",
+    name: "酒款 07",
+    english: "WINE SELECTION 07",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "08-reserve-de-la-comtesse.jpg",
+    name: "酒款 08",
+    english: "WINE SELECTION 08",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "09-robert-mondavi-napa-cabernet.jpg",
+    name: "酒款 09",
+    english: "WINE SELECTION 09",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "10-chateau-rol-valentin.jpg",
+    name: "Rol de Valentin 2022 情人堡二軍",
+    english: "ROL DE VALENTIN · SAINT-ÉMILION GRAND CRU",
+    region: "Saint-Émilion Grand Cru, Bordeaux",
+    vintage: "2022",
+    description: "「把波爾多的頂級風土，釀成一口最溫柔的法式熱戀。」來自聖愛美濃名莊情人堡（Château Rol Valentin）的二軍紅酒。2022 年完美氣候注入不凡靈魂，榮獲 James Suckling 93-94 分超高讚譽！佐餐建議：約會晚餐、烤肉。",
+    price: "NT$ 1,500 / 瓶"
+  },
+  {
+    image: "11-the-prisoner-thorn-merlot.jpg",
+    name: "酒款 11",
+    english: "WINE SELECTION 11",
+    region: "產區資料待填",
+    vintage: "年份待填",
+    description: "在此填入經確認的酒款介紹與風味特色。",
+    price: "價格待填"
+  },
+  {
+    image: "12-robert-mondavi-private-selection-cabernet-2023.jpg",
+    name: "Robert Mondavi Private Selection Cabernet Sauvignon 2023",
+    english: "ROBERT MONDAVI PRIVATE SELECTION · CABERNET SAUVIGNON",
+    region: "California, USA",
+    vintage: "2023",
+    description: "加州葡萄酒教父的日常款，榮獲 The Tasting Panel 90 分。絲滑單寧裹著黑莓與摩卡，中段浮出檀香氣息，深度和質地都在線。風味帶黑櫻桃、黑醋栗、香草、烤橡木與法式咖啡，即開即飲不用等。佐餐推薦：烤牛排、肋排、千層麵、硬質起司。",
+    price: "價格待填"
+  }
+];
+
+/* 建立走秀畫面 */
+const runway = document.getElementById("runway");
+const collectionGrid = document.getElementById("collection-grid");
+
+wines.forEach((wine, index) => {
+  const number = String(index + 1).padStart(2, "0");
+
+  const section = document.createElement("section");
+  section.className = "runway-section";
+  section.dataset.index = index;
+
+  section.innerHTML = `
+    <div class="runway-stage">
+      <div class="stage-light"></div>
+
+      <div class="product-info">
+        <div class="number">LOOK ${number} / ${String(wines.length).padStart(2, "0")}</div>
+        <h2>${wine.name}</h2>
+        <div class="english">${wine.english}</div>
+        <div class="english">${wine.region} · ${wine.vintage}</div>
+        <div class="description">${wine.description}</div>
+        <div class="price">${wine.price}</div>
+      </div>
+
+      <div class="bottle-wrap">
+        <img
+          class="bottle"
+          src="${wine.image}"
+          alt="${wine.name}"
+          loading="${index < 2 ? "eager" : "lazy"}"
+          onerror="this.style.opacity='.12'; this.alt='請放入酒瓶圖片：${wine.image}'"
+        >
+      </div>
+
+      <div class="side-note">TAIXUAN · SELECTED WINE COLLECTION</div>
+    </div>
+  `;
+
+  runway.appendChild(section);
+
+  const item = document.createElement("button");
+  item.className = "collection-item";
+  item.type = "button";
+  item.innerHTML = `
+    <div class="collection-image">
+      <img src="${wine.image}" alt="${wine.name}" loading="lazy">
+    </div>
+    <h3>${wine.name}</h3>
+    <p>LOOK ${number}</p>
+  `;
+
+  item.addEventListener("click", () => {
+    section.scrollIntoView({ behavior: "smooth" });
+  });
+
+  collectionGrid.appendChild(item);
+});
+
+/* 走秀畫面進場及離場 */
+const sections = document.querySelectorAll(".runway-section");
+const currentNumber = document.getElementById("progress-current");
+const progressFill = document.getElementById("progress-fill");
+const totalNumber = document.getElementById("progress-total");
+
+totalNumber.textContent = String(wines.length).padStart(2, "0");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      sections.forEach(section => section.classList.remove("active"));
+      entry.target.classList.add("active");
+
+      const index = Number(entry.target.dataset.index);
+      currentNumber.textContent = String(index + 1).padStart(2, "0");
+      progressFill.style.height =
+        `${((index + 1) / wines.length) * 100}%`;
+    }
+  });
+}, {
+  threshold: 0.55
+});
+
+sections.forEach(section => observer.observe(section));
+
+/* 初始畫面 */
+if (sections.length) {
+  sections[0].classList.add("active");
+}
+</script>
+
+</body>
+</html>
