@@ -1,1139 +1,963 @@
-<!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAIXUAN WINE | 2026 HAUTE COUTURE RUNWAY 走秀式互動酒單</title>
-  <!-- Google Fonts: Cormorant Garamond & Montserrat & Noto Serif TC -->
+  <title>TAIXUAN WINE 2026 RUNWAY | 汰暄酒業 時尚走秀精選酒單</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=Noto+Serif+TC:wght@300;400;600;900&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            serif: ['"Cormorant Garamond"', '"Noto Serif TC"', 'serif'],
-            display: ['"Cinzel"', 'serif'],
-            sans: ['"Montserrat"', 'sans-serif'],
-          },
-          colors: {
-            couture: {
-              gold: '#D4AF37',
-              goldLight: '#F5E6A3',
-              bronze: '#9B783E',
-              dark: '#0A0A0C',
-              surface: '#121217',
-              card: '#181820',
-              accent: '#8E1616',
-            }
-          },
-          animation: {
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'spotlight-sweep': 'sweep 8s ease-in-out infinite alternate',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            sweep: {
-              '0%': { transform: 'translateX(-15%) rotate(-8deg)' },
-              '100%': { transform: 'translateX(15%) rotate(8deg)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Noto+Serif+TC:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Custom Luxury Runway Styles */
+    :root {
+      --bg-dark: #0a0a0c;
+      --bg-surface: #141418;
+      --bg-card: #1c1c22;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-muted: #8c7835;
+      --text-white: #f5f5f7;
+      --text-muted: #9e9ea7;
+      --border-subtle: rgba(212, 175, 55, 0.2);
+      --font-display: 'Cinzel', serif;
+      --font-serif: 'Noto Serif TC', serif;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
     body {
-      background-color: #070709;
-      color: #E2E2E6;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-sans);
       overflow-x: hidden;
-      font-family: 'Montserrat', 'Noto Serif TC', sans-serif;
+      padding-bottom: 90px;
     }
 
-    /* Dramatic Catwalk Perspective */
-    .catwalk-floor {
-      background: linear-gradient(180deg, rgba(212,175,55,0.02) 0%, rgba(20,20,26,0.9) 60%, rgba(10,10,12,1) 100%);
-      perspective: 1000px;
+    /* 頂部導覽列 */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 10, 12, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .catwalk-carpet {
+    .brand-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-white);
+    }
+
+    .brand-sub {
+      font-family: var(--font-display);
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--gold-primary);
+    }
+
+    .header-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* BGM 播放器按鈕 */
+    .bgm-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: var(--font-display);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .bgm-btn.playing {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .eq-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .eq-bar {
+      width: 2px;
+      background-color: var(--gold-primary);
+      height: 3px;
+      transition: height 0.2s ease;
+    }
+
+    .bgm-btn.playing .eq-bar:nth-child(1) { animation: eqJump 0.8s infinite ease-in-out; }
+    .bgm-btn.playing .eq-bar:nth-child(2) { animation: eqJump 0.6s infinite ease-in-out 0.2s; }
+    .bgm-btn.playing .eq-bar:nth-child(3) { animation: eqJump 1.0s infinite ease-in-out 0.4s; }
+
+    @keyframes eqJump {
+      0%, 100% { height: 3px; }
+      50% { height: 12px; }
+    }
+
+    /* 伸展台大舞台 (Runway Stage) */
+    .runway-viewport {
+      margin-top: 70px;
+      min-height: calc(90vh - 70px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
-      background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(26, 26, 36, 0.95) 45%, #0e0e12 100%);
-      box-shadow: 0 0 60px rgba(212, 175, 55, 0.12), inset 0 0 40px rgba(0, 0, 0, 0.8);
-      border-left: 1px solid rgba(212, 175, 55, 0.25);
-      border-right: 1px solid rgba(212, 175, 55, 0.25);
-      transform: perspective(700px) rotateX(25deg);
-      transform-origin: bottom center;
+      background: radial-gradient(circle at 50% 30%, #201a24 0%, #0a0a0c 70%);
+      padding: 40px 5%;
+      overflow: hidden;
     }
 
-    /* Rim Lighting on Wine Silhouettes */
-    .rim-glow {
-      filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.35)) drop-shadow(0 0 50px rgba(180, 140, 40, 0.15));
+    /* 聚光燈特效 */
+    .spotlight {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(300px, 60vw, 800px);
+      height: 100%;
+      background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .shimmer-text {
-      background: linear-gradient(90deg, #EAD79B 0%, #FFFFFF 30%, #D4AF37 70%, #FAF1D4 100%);
-      background-size: 200% auto;
-      color: transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation: shine 5s linear infinite;
+    .runway-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: clamp(20px, 4vw, 60px);
+      align-items: center;
     }
 
-    @keyframes shine {
-      to { background-position: 200% center; }
+    /* 模特兒/酒瓶 伸展站台 */
+    .pedestal-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
     }
 
-    /* Custom Scrollbar for Drawer & Horizontal Strip */
-    ::-webkit-scrollbar {
-      height: 4px;
-      width: 4px;
+    .model-bottle {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
     }
-    ::-webkit-scrollbar-track {
-      background: #0d0d12;
+
+    .model-bottle img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #39362c;
-      border-radius: 2px;
+
+    .bottle-placeholder {
+      width: 220px;
+      height: 400px;
+      border: 1px dashed var(--gold-muted);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      text-align: center;
+      padding: 20px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #D4AF37;
+
+    .runway-floor-reflection {
+      width: 280px;
+      height: 24px;
+      background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.35) 0%, transparent 75%);
+      border-radius: 50%;
+      margin-top: -12px;
+      filter: blur(4px);
+    }
+
+    /* 酒款文字與細節面板 */
+    .look-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .look-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .look-badge {
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--gold-primary);
+      border: 1px solid var(--gold-primary);
+      padding: 4px 10px;
+      letter-spacing: 0.15em;
+    }
+
+    .look-category {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .look-title-cn {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 700;
+      color: var(--text-white);
+      line-height: 1.25;
+    }
+
+    .look-title-en {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+      margin-top: 4px;
+    }
+
+    .look-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .price-tag {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold-primary);
+    }
+
+    .price-unit {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .look-highlight {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--gold-light);
+      border-left: 2px solid var(--gold-primary);
+      padding-left: 14px;
+      background: rgba(212, 175, 55, 0.05);
+      padding: 10px 14px;
+    }
+
+    .look-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #c5c5cb;
+      font-family: var(--font-serif);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 14px;
+      font-size: 12px;
+    }
+
+    .spec-item strong {
+      color: var(--gold-primary);
+      margin-right: 6px;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .cta-btn {
+      background: var(--gold-primary);
+      color: #000;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta-btn:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* 走秀伸展台切換按鈕 */
+    .nav-arrow-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .nav-arrow-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+    }
+
+    /* 走秀底片縮圖膠捲 (Lookbook Filmstrip) */
+    .lookbook-strip {
+      background: #0f0f13;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 5%;
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-muted) transparent;
+    }
+
+    .thumb-item {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      min-width: 110px;
+    }
+
+    .thumb-item.active {
+      border-color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .thumb-num {
+      font-family: var(--font-display);
+      font-size: 10px;
+      color: var(--gold-primary);
+    }
+
+    .thumb-name {
+      font-size: 11px;
+      color: var(--text-muted);
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .thumb-item.active .thumb-name {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* 預約洽詢抽屜 (Drawer Modal) */
+    .inquiry-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--gold-primary);
+      max-width: 480px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 18px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .modal-info-box {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 20px;
+      padding-top: 14px;
+    }
+
+    /* ========================================================
+       法定酒類警語列（台灣官方標準標誌：機車+汽車+酒杯+紅斜線）
+       ======================================================== */
+    .legal-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10vh;
+      min-height: 52px;
+      max-height: 80px;
+      background-color: #000000;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 3.5vw, 40px);
+      z-index: 9999;
+      user-select: none;
+      border-top: 1px solid #222222;
+    }
+
+    .legal-warning-text {
+      font-family: var(--font-serif);
+      font-size: clamp(14px, 2.2vw, 24px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      white-space: nowrap;
+    }
+
+    .dui-official-icon {
+      width: clamp(32px, 4vw, 50px);
+      height: clamp(32px, 4vw, 50px);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 860px) {
+      .runway-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .look-highlight {
+        border-left: none;
+        border-top: 2px solid var(--gold-primary);
+      }
+      .pedestal-wrap {
+        min-height: 360px;
+      }
+      .model-bottle {
+        height: 320px;
+      }
+      .action-row {
+        justify-content: center;
+      }
     }
   </style>
 </head>
-<body class="selection:bg-amber-600/30 selection:text-amber-200 pb-[10vh]">
+<body>
 
-  <!-- TOP HEADER / FASHION EDITORIAL MASTHEAD -->
-  <header class="fixed top-0 left-0 right-0 z-40 bg-couture-dark/80 backdrop-blur-md border-b border-couture-gold/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-      <!-- Brand Logo -->
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="goToSlide(0)">
-        <div class="w-8 h-8 rounded-full border border-couture-gold/60 flex items-center justify-center text-couture-gold font-display font-bold text-xs tracking-widest shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-          TX
+  <!-- 頂部資訊與秀場音樂播放器 -->
+  <header>
+    <div class="brand-wrap">
+      <div class="brand-name">汰暄酒業</div>
+      <div class="brand-sub">TAIXUAN RUNWAY COLLECTION</div>
+    </div>
+
+    <div class="header-ctrls">
+      <button id="bgmToggle" class="bgm-btn" aria-label="Toggle Runway Soundtrack">
+        <div class="eq-bars">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
         </div>
-        <div>
-          <span class="font-display tracking-[0.28em] text-sm sm:text-base font-bold text-white block">TAIXUAN WINE</span>
-          <span class="font-serif tracking-[0.18em] text-[10px] text-couture-gold/80 block uppercase">汰暄酒業 · 高級訂製秀款特輯</span>
-        </div>
-      </div>
-
-      <!-- Center Fashion Indicator -->
-      <div class="hidden md:flex items-center space-x-6 text-xs tracking-[0.3em] uppercase text-zinc-400">
-        <span class="inline-flex items-center text-couture-gold">
-          <span class="w-1.5 h-1.5 rounded-full bg-couture-gold mr-2 animate-ping"></span>
-          RUNWAY ACTIVE
-        </span>
-        <span class="text-zinc-600">|</span>
-        <span>AUTUMN / WINTER COLLECTIVE</span>
-        <span class="text-zinc-600">|</span>
-        <span class="font-mono text-zinc-300" id="currentLookHeader">LOOK 01 / 12</span>
-      </div>
-
-      <!-- Actions -->
-      <div class="flex items-center space-x-3">
-        <button id="autoRunwayBtn" onclick="toggleAutoPlay()" class="px-3 py-1.5 text-xs rounded border border-couture-gold/40 text-couture-goldLight hover:bg-couture-gold/10 transition-all flex items-center space-x-1.5 font-sans tracking-wider">
-          <svg id="autoPlayIcon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <span id="autoPlayText">AUTOWALK</span>
-        </button>
-        <button onclick="toggleOrderDrawer()" class="px-4 py-1.5 text-xs rounded bg-gradient-to-r from-couture-gold to-couture-bronze text-black font-semibold tracking-wider hover:opacity-90 shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all flex items-center gap-1.5">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span>選酒清單 (<span id="cartCount">0</span>)</span>
-        </button>
-      </div>
+        <span id="bgmLabel">RUNWAY AUDIO [OFF]</span>
+      </button>
     </div>
   </header>
 
-  <!-- MAIN RUNWAY STAGE VIEWPORT -->
-  <main class="relative min-h-[92vh] sm:min-h-screen pt-20 flex flex-col justify-between overflow-hidden">
-    
-    <!-- STAGE LIGHTING BACKGROUND -->
-    <div class="absolute inset-0 pointer-events-none z-0">
-      <!-- Top Center Overhead Spotlight Cone -->
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[650px] bg-gradient-to-b from-couture-gold/15 via-couture-gold/5 to-transparent blur-3xl transform -rotate-12 animate-spotlight-sweep opacity-75"></div>
-      
-      <!-- Backstage Curtain Glow -->
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-amber-900/10 rounded-full blur-[120px]"></div>
+  <!-- 音樂載入 (優先讀取當前目錄與 assets 目錄) -->
+  <audio id="runwayBgm" loop preload="none">
+    <source src="runway-bgm.mp3" type="audio/mpeg">
+    <source src="assets/runway-bgm.mp3" type="audio/mpeg">
+  </audio>
 
-      <!-- Runway Edge Spotlights -->
-      <div class="absolute bottom-32 left-10 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-32 right-10 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl"></div>
+  <!-- 走秀伸展大舞台 -->
+  <main class="runway-viewport">
+    <div class="spotlight"></div>
 
-      <!-- Grid lines for runway perspective -->
-      <div class="absolute bottom-0 left-0 right-0 h-96 opacity-20 pointer-events-none bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px]"></div>
-    </div>
+    <div class="runway-content">
+      <!-- 伸展台展出區 -->
+      <div class="pedestal-wrap">
+        <div class="model-bottle" id="bottleContainer">
+          <!-- 圖片將由 JS 動態注入 -->
+        </div>
+        <div class="runway-floor-reflection"></div>
+      </div>
 
-    <!-- RUNWAY HERO SECTION (CONTENT + BOTTLE) -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col lg:flex-row items-center justify-center lg:justify-between py-6 lg:py-10">
-
-      <!-- LEFT: LOOK EDITORIAL & CRITIC ACCOLADES -->
-      <div class="w-full lg:w-5/12 text-left z-20 transition-all duration-700 order-2 lg:order-1 mt-6 lg:mt-0" id="wineInfoPanel">
-        
-        <!-- Look Index & Vintage Badge -->
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono tracking-widest bg-couture-gold/15 border border-couture-gold/40 text-couture-gold font-semibold uppercase" id="lookNumber">LOOK 01 / 12</span>
-          <span class="text-xs uppercase tracking-widest text-zinc-400 font-sans" id="wineRegion">LUGANA DOC, ITALY</span>
-          <span class="text-xs font-mono text-zinc-500" id="wineVintage">2025</span>
+      <!-- 酒款秀場細節 -->
+      <div class="look-panel">
+        <div class="look-meta">
+          <span class="look-badge" id="lookNumber">LOOK 01</span>
+          <span class="look-category" id="lookCategory">WHITE WINE / LUGANA DOC</span>
         </div>
 
-        <!-- Fashion/Wine Title -->
-        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-2 leading-tight" id="wineTitle">
-          Cà dei Frati “I Frati” Lugana DOC
-        </h1>
-        <p class="font-sans text-xs sm:text-sm text-couture-gold font-medium tracking-[0.2em] mb-4 uppercase" id="wineSubName">
-          盧加納修道士白酒
+        <div>
+          <h1 class="look-title-cn" id="lookTitleCn">載入中...</h1>
+          <div class="look-title-en" id="lookTitleEn">...</div>
+        </div>
+
+        <div class="look-price-row">
+          <span class="price-tag" id="lookPrice">NT$ 700</span>
+          <span class="price-unit">/ 瓶</span>
+        </div>
+
+        <div class="look-highlight" id="lookHighlight">
+          公認義大利加爾達湖 Lugana 之王，冷冽鹹鮮的冰川礦物感。
+        </div>
+
+        <p class="look-desc" id="lookDesc">
+          葡萄園躺在加爾達湖南岸，土壤為白堊紀黏土與石灰岩。一口喝下去，冷冽、鹹鮮、俐落到像含了一顆冰過的礦石。它還能陳年，放十年香料與碘味慢慢滲出來，裝瓶後多年才是它最好的樣子。
         </p>
 
-        <!-- Accolades / Scores Pills -->
-        <div class="flex flex-wrap items-center gap-2 mb-5" id="wineBadges">
-          <!-- Dynamically Injected -->
+        <div class="specs-grid">
+          <div class="spec-item"><strong>風味特色</strong><span id="specFlavor">白花、杏桃、青蘋果、萊姆、尾韻鹹礦物</span></div>
+          <div class="spec-item"><strong>佐餐建議</strong><span id="specPairing">生蠔、清蒸海鮮、輕乳酪</span></div>
         </div>
 
-        <!-- Quote / Couture Punchline -->
-        <div class="relative border-l-2 border-couture-gold/70 pl-4 py-1 mb-5 bg-gradient-to-r from-couture-gold/5 to-transparent">
-          <p class="font-serif italic text-base sm:text-lg text-zinc-200" id="wineHook">
-            「Lugana 之王。不是封號，是義大利酒評圈公認的事實。」
-          </p>
-        </div>
-
-        <!-- Detailed Story Snippet -->
-        <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-sans mb-6 line-clamp-3 sm:line-clamp-none font-light" id="wineStory">
-          Gambero Rosso 稱酒莊在加爾達湖區佔據「無可爭議的關鍵地位」。冰川礦物感不是形容詞，葡萄園土壤為白堊紀黏土與石灰岩，一口冷冽俐落。
-        </p>
-
-        <!-- Tasting Matrix Tags -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800/80 backdrop-blur-sm text-xs">
-          <div>
-            <span class="text-zinc-500 uppercase tracking-widest text-[10px] block mb-1">RUNWAY PROFILE · 風味香氣</span>
-            <span class="text-zinc-200 font-medium" id="wineFlavor">白花、杏桃、青蘋果、萊姆、鹹礦物</span>
-          </div>
-          <div>
-            <span class="text-zinc-500 uppercase tracking-widest text-[10px] block mb-1">FOOD PAIRING · 首席佐餐</span>
-            <span class="text-zinc-200 font-medium" id="winePairing">生蠔、清蒸海鮮、輕乳酪 (10°C)</span>
-          </div>
-        </div>
-
-        <!-- Price & Direct Reservation Action -->
-        <div class="flex items-center space-x-4 pt-2">
-          <div>
-            <span class="text-[10px] tracking-widest uppercase text-zinc-400 block font-mono">VALUATION EXCLUSIVE</span>
-            <div class="flex items-baseline space-x-1">
-              <span class="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight" id="winePrice">NT$ 700</span>
-              <span class="text-xs text-zinc-400 font-sans">/ 瓶</span>
-            </div>
-          </div>
-
-          <button onclick="openQuickOrderForCurrent()" class="flex-1 py-3 px-5 rounded-lg bg-gradient-to-r from-couture-gold via-couture-goldLight to-couture-gold text-couture-dark font-display font-bold tracking-widest text-xs uppercase hover:brightness-110 active:scale-95 transition-all shadow-[0_0_30px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2">
-            <span>預訂走秀款 RESERVE LOOK</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </button>
-        </div>
-
-      </div>
-
-      <!-- CENTER: RUNWAY BOTTLE STAGE PRESENTATION -->
-      <div class="w-full lg:w-6/12 relative flex flex-col items-center justify-center order-1 lg:order-2 h-[340px] sm:h-[460px] lg:h-[520px]">
-        
-        <!-- Catwalk Visual Floor -->
-        <div class="catwalk-carpet absolute bottom-4 w-72 sm:w-96 h-44 rounded-b-3xl"></div>
-        
-        <!-- Spotlight Ring beneath bottle -->
-        <div class="absolute bottom-8 w-44 sm:w-64 h-12 bg-couture-gold/25 rounded-[100%] blur-md transform scale-y-50"></div>
-        <div class="absolute bottom-9 w-28 sm:w-40 h-6 bg-white/40 rounded-[100%] blur-sm transform scale-y-50 animate-pulse"></div>
-
-        <!-- Bottle Display Container -->
-        <div class="relative z-20 flex flex-col items-center justify-center transition-all duration-700 ease-out transform animate-float" id="bottleContainer">
-          <!-- Artistic Wine Silhouette & Glass Reflection Canvas -->
-          <div id="bottleGraphic" class="relative group cursor-pointer" onclick="toggleDetailsModal()">
-            <!-- SVG Bottle Art tailored with Dynamic Styling -->
-            <svg class="w-44 sm:w-56 lg:w-64 h-[280px] sm:h-[380px] lg:h-[430px] rim-glow transition-transform duration-500 group-hover:scale-105" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#121217" stop-opacity="0.95"/>
-                  <stop offset="25%" stop-color="#2a251e" stop-opacity="0.8"/>
-                  <stop offset="50%" stop-color="#554428" stop-opacity="0.5"/>
-                  <stop offset="75%" stop-color="#191921" stop-opacity="0.85"/>
-                  <stop offset="100%" stop-color="#0a0a0d" stop-opacity="0.98"/>
-                </linearGradient>
-                <linearGradient id="labelGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#F7E7A8"/>
-                  <stop offset="50%" stop-color="#D4AF37"/>
-                  <stop offset="100%" stop-color="#8B6C1F"/>
-                </linearGradient>
-                <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.7"/>
-                </filter>
-              </defs>
-
-              <!-- Bottle Neck & Shoulder Silhouette -->
-              <!-- Neck top / capsule -->
-              <rect x="85" y="40" width="30" height="75" rx="3" fill="#B38F38" />
-              <rect x="83" y="40" width="34" height="12" rx="2" fill="#D4AF37" />
-              <rect x="85" y="48" width="30" height="2" fill="#3D3012" opacity="0.6"/>
-              
-              <!-- Capsule Band -->
-              <rect x="85" y="105" width="30" height="10" fill="#221C0E"/>
-              <line x1="85" y1="110" x2="115" y2="110" stroke="#D4AF37" stroke-width="1"/>
-
-              <!-- Bottle Main Body -->
-              <path d="M85 115 C85 170, 48 200, 45 270 L45 520 C45 540, 60 550, 100 550 C140 550, 155 540, 155 520 L155 270 C152 200, 115 170, 115 115 Z" 
-                    fill="url(#glassGradient)" stroke="rgba(212,175,55,0.4)" stroke-width="2" filter="url(#shadowFilter)"/>
-              
-              <!-- Glass Rim Highlights -->
-              <path d="M50 270 L50 515 C50 525, 60 535, 75 540" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M88 120 L88 170 C88 190, 65 215, 60 250" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" fill="none"/>
-
-              <!-- High Fashion Editorial Wine Label -->
-              <g id="svgBottleLabel">
-                <rect x="58" y="275" width="84" height="175" rx="2" fill="#0C0C10" stroke="#D4AF37" stroke-width="1" />
-                <rect x="62" y="279" width="76" height="167" rx="1" fill="none" stroke="#D4AF37" stroke-width="0.5" stroke-dasharray="3 2"/>
-                
-                <!-- Label Coat of Arms -->
-                <circle cx="100" cy="305" r="10" fill="none" stroke="#D4AF37" stroke-width="1"/>
-                <path d="M96 305 L100 300 L104 305 L100 310 Z" fill="#D4AF37"/>
-                
-                <!-- Label Typography -->
-                <text x="100" y="332" font-family="'Cinzel', serif" font-size="9" fill="#F7E7A8" font-weight="bold" text-anchor="middle" letter-spacing="2">TAIXUAN</text>
-                <text x="100" y="344" font-family="'Cinzel', serif" font-size="6" fill="#A08846" text-anchor="middle" letter-spacing="1">HAUTE COUTURE</text>
-                
-                <line x1="72" y1="352" x2="128" y2="352" stroke="#D4AF37" stroke-width="0.5" opacity="0.6"/>
-
-                <text x="100" y="372" font-family="'Cormorant Garamond', serif" font-size="11" fill="#FFFFFF" font-weight="600" text-anchor="middle" id="svgLabelTitle">I FRATI</text>
-                <text x="100" y="386" font-family="'Montserrat', sans-serif" font-size="6" fill="#D4AF37" text-anchor="middle" letter-spacing="1" id="svgLabelAppellation">LUGANA DOC</text>
-                
-                <text x="100" y="420" font-family="'Cinzel', serif" font-size="12" fill="#D4AF37" font-weight="bold" text-anchor="middle" id="svgLabelVintage">2025</text>
-                <text x="100" y="433" font-family="'Montserrat', sans-serif" font-size="5" fill="#888899" text-anchor="middle">GRAND CRU SELECTION</text>
-              </g>
-
-              <!-- Punt (Base) Reflection -->
-              <ellipse cx="100" cy="545" rx="35" ry="5" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
-            </svg>
-
-            <!-- Floating Runway Tag -->
-            <div class="absolute -top-3 -right-2 bg-couture-card/90 backdrop-blur-md border border-couture-gold/60 px-3 py-1 rounded-full shadow-lg text-[10px] font-mono text-couture-gold flex items-center gap-1.5 pointer-events-none">
-              <span class="w-1.5 h-1.5 rounded-full bg-couture-gold animate-pulse"></span>
-              <span id="badgeTopScore">FALSTAFF 93</span>
-            </div>
-
-            <!-- Tap to Zoom Tooltip -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm border border-zinc-700/60 px-3 py-0.5 rounded-full text-[10px] tracking-wider text-zinc-300 opacity-70 group-hover:opacity-100 transition-opacity">
-              點擊查看典藏卡 ✦
-            </div>
-          </div>
-        </div>
-
-        <!-- RUNWAY PREV / NEXT STAGE CONTROLS -->
-        <div class="flex items-center space-x-6 mt-4 z-30">
-          <button onclick="prevSlide()" class="w-11 h-11 rounded-full border border-couture-gold/40 bg-zinc-950/80 text-couture-gold hover:bg-couture-gold hover:text-black hover:border-couture-gold transition-all duration-300 flex items-center justify-center active:scale-95 shadow-md group" title="上一個秀款 (Left Arrow)">
-            <svg class="w-5 h-5 transform group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-
-          <!-- Stage Progress Indicators -->
-          <div class="flex items-center space-x-1.5" id="stageDots">
-            <!-- Injected Dots -->
-          </div>
-
-          <button onclick="nextSlide()" class="w-11 h-11 rounded-full border border-couture-gold/40 bg-zinc-950/80 text-couture-gold hover:bg-couture-gold hover:text-black hover:border-couture-gold transition-all duration-300 flex items-center justify-center active:scale-95 shadow-md group" title="下一個秀款 (Right Arrow)">
-            <svg class="w-5 h-5 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- BOTTOM RUNWAY FILMSTRIP / LOOKBOOK THUMBNAILS -->
-    <div class="relative z-20 w-full bg-zinc-950/90 border-t border-zinc-800/80 backdrop-blur-md py-3 px-4 sm:px-8">
-      <div class="max-w-7xl mx-auto">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center space-x-2 text-[10px] uppercase tracking-[0.25em] text-zinc-400 font-display">
-            <span class="w-2 h-2 bg-couture-gold rotate-45 inline-block"></span>
-            <span>RUNWAY LOOKBOOK SEQUENCE · 秀場全序列</span>
-          </div>
-          <span class="text-[10px] text-zinc-500 font-mono hidden sm:inline-block">USE ← / → ARROW KEYS TO NAVIGATE</span>
-        </div>
-
-        <!-- Horizontal Scroll Track -->
-        <div class="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-thin select-none" id="lookbookTape">
-          <!-- 12 Dynamic Runway Look Cards -->
+        <div class="action-row">
+          <button class="nav-arrow-btn" id="prevBtn" title="上一款 (←)">‹</button>
+          <button class="cta-btn" id="inquireBtn">預約此款配額 ↗</button>
+          <button class="nav-arrow-btn" id="nextBtn" title="下一款 (→)">›</button>
         </div>
       </div>
     </div>
-
   </main>
 
-  <!-- QUICK RESERVE / WINE ORDER DRAWER -->
-  <div id="orderDrawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-500 opacity-0">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleOrderDrawer()"></div>
+  <!-- 走秀底片膠捲 (Lookbook Strip) -->
+  <nav class="lookbook-strip" id="filmstripNav">
+    <!-- JS 自動產生 12 套 LOOK 縮圖按鈕 -->
+  </nav>
+
+  <!-- 洽詢預約視窗 -->
+  <div class="inquiry-modal" id="inquiryModal">
+    <div class="modal-card">
+      <button class="close-modal" id="closeModal">×</button>
+      <div class="modal-title">汰暄尊榮配額洽詢</div>
+      <p style="font-size: 13px; color: var(--gold-light); margin-bottom: 15px;" id="selectedWineInfo">目前選擇：Look 01</p>
+      
+      <p style="font-size: 13px; color: #aaa; line-height: 1.6; margin-bottom: 20px;">
+        依法規酒類商品無法直接線上結帳。請點選下方按鈕直接連動專人 LINE / 客服，我們將為您保留專屬現貨與試飲方案。
+      </p>
+
+      <a href="tel:0223650988" class="cta-btn" style="display:block; text-align:center; text-decoration:none; margin-bottom:10px;">
+        致電專人洽詢 (02-2365-0988)
+      </a>
+
+      <div class="modal-info-box">
+        <strong>汰暄國際貿易有限公司</strong><br>
+        統一編號：90898370<br>
+        台北市大安區新生南路三段20號之一1F<br>
+        營業時間：週一至週五 9:00～17:00 (例假日公休)
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       法定酒類警語列（台灣官方標準：機車+汽車+酒杯+紅斜線）
+       ======================================================== -->
+  <footer class="legal-sticky-bar">
+    <span class="legal-warning-text">未成年請勿飲酒</span>
     
-    <!-- Drawer Panel -->
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-couture-card border-l border-couture-gold/30 shadow-2xl p-6 sm:p-8 flex flex-col justify-between overflow-y-auto transform translate-x-full transition-transform duration-500 pointer-events-auto" id="drawerContent">
-      <div>
-        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
-          <div>
-            <span class="font-display tracking-widest text-xs text-couture-gold uppercase block">TAIXUAN PRIVATE SELECTION</span>
-            <h3 class="font-serif text-2xl font-bold text-white">尊榮侍酒預訂單</h3>
-          </div>
-          <button onclick="toggleOrderDrawer()" class="text-zinc-400 hover:text-white p-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
+    <!-- 標準法定禁止酒駕標誌 (向量 SVG) -->
+    <svg class="dui-official-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="禁止酒駕法定標誌">
+      <!-- 白底與外圍紅圈 -->
+      <circle cx="60" cy="60" r="54" fill="#FFFFFF" stroke="#C82323" stroke-width="12"/>
+      
+      <!-- 高腳酒杯剪影 -->
+      <path d="M63 30 C63 30 89 30 89 47 C89 59 77 66 77 71 L77 90 L85 90 L85 94 L63 94 L63 90 L71 90 L71 71 C71 67 65 61 64 57 Z" fill="#1C2D37"/>
+      
+      <!-- 摩托車/機車剪影 -->
+      <path d="M37 50 L43 55 L39 58 L41 63 L33 63 L29 58 L19 58 L18 63 L27 63 C29 63 30 65 29 67 C28 71 24 72 22 72 C18 72 17 70 17 67 L17 66 L19 59 L19 58 Z" fill="#1C2D37"/>
+      <circle cx="24" cy="67" r="4.5" fill="#FFFFFF"/>
+      <circle cx="46" cy="67" r="4.5" fill="#FFFFFF"/>
+      
+      <!-- 汽車剪影 -->
+      <path d="M46 75 C50 75 54 71 59 71 C67 71 72 75 74 78 L74 85 C74 88 72 90 70 90 L67 90 C67 86 63 84 60 84 C56 84 52 86 52 90 L45 90 C45 86 41 84 38 84 C34 84 30 86 30 90 L32 83 Z" fill="#1C2D37"/>
+      <circle cx="40" cy="88" r="4" fill="#FFFFFF"/>
+      <circle cx="62" cy="88" r="4" fill="#FFFFFF"/>
+      
+      <!-- 紅色 45 度禁止斜線 -->
+      <line x1="22" y1="22" x2="98" y2="98" stroke="#C82323" stroke-width="12" stroke-linecap="round"/>
+    </svg>
 
-        <p class="text-xs text-zinc-400 mb-4 font-sans leading-relaxed">
-          汰暄酒業專屬侍酒顧問將在 24 小時內為您確認溫控庫存、配送排程與企業採購專案優惠。
-        </p>
-
-        <!-- Selected Wines List in Drawer -->
-        <div class="space-y-3 mb-6" id="cartItemsList">
-          <!-- Injected Wine Items -->
-        </div>
-
-        <!-- Add Current Wine Shortcut -->
-        <button onclick="addCurrentWineToCart()" class="w-full py-2 px-3 rounded border border-couture-gold/40 text-couture-gold text-xs font-sans tracking-wider hover:bg-couture-gold/10 transition mb-6 flex items-center justify-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          <span>加入當前秀款 (<span id="drawerCurrentLookName">LOOK</span>)</span>
-        </button>
-
-        <!-- Inquiry Form -->
-        <form id="reservationForm" onsubmit="submitReservation(event)" class="space-y-4">
-          <div>
-            <label class="block text-[11px] font-mono tracking-wider text-zinc-400 uppercase mb-1">貴賓尊稱 / Name *</label>
-            <input type="text" required placeholder="例如：陳先生 / Victoria Lin" class="w-full bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-couture-gold">
-          </div>
-          <div>
-            <label class="block text-[11px] font-mono tracking-wider text-zinc-400 uppercase mb-1">聯絡電話 / Contact Phone *</label>
-            <input type="tel" required placeholder="0912-345-678" class="w-full bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-couture-gold">
-          </div>
-          <div>
-            <label class="block text-[11px] font-mono tracking-wider text-zinc-400 uppercase mb-1">收件或自取備註 / Delivery Note</label>
-            <textarea rows="2" placeholder="指定配送日期、統編抬頭或品飲諮詢..." class="w-full bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-couture-gold"></textarea>
-          </div>
-
-          <div class="p-3 bg-zinc-950 rounded-lg border border-zinc-800 text-xs">
-            <div class="flex justify-between text-zinc-400 mb-1">
-              <span>預訂酒款總計：</span>
-              <span class="text-white font-mono" id="cartTotalBottles">0 瓶</span>
-            </div>
-            <div class="flex justify-between font-bold text-couture-gold">
-              <span>預估專案金額：</span>
-              <span class="text-base font-mono" id="cartTotalPrice">NT$ 0</span>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full py-3.5 rounded bg-gradient-to-r from-couture-gold to-couture-bronze text-black font-display font-bold text-xs uppercase tracking-widest hover:brightness-110 active:scale-98 transition shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-            確認送出走秀專案預約
-          </button>
-        </form>
-      </div>
-
-      <!-- Business Information in Drawer -->
-      <div class="pt-6 mt-6 border-t border-zinc-800 text-[11px] text-zinc-500 font-sans leading-relaxed">
-        <p class="font-semibold text-zinc-400">汰暄酒業股份有限公司</p>
-        <p>統一編號：90898370</p>
-        <p>服務專線：02-23650988</p>
-        <p>門市地址：台北市大安區新生南路三段20號之一 1F</p>
-        <p>營業時間：週一至週五 9:00 - 17:00 (週末/例假日公休)</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- LOOKBOOK FULL DETAIL MODAL (HIGH FASHION CRITIQUE) -->
-  <div id="detailsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
-    <div class="relative w-full max-w-2xl bg-couture-card border border-couture-gold/40 rounded-2xl p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-      <!-- Close Button -->
-      <button onclick="toggleDetailsModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white p-2">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-
-      <span class="text-xs font-mono uppercase tracking-[0.25em] text-couture-gold" id="modalLookIndex">LOOK 01 · COUTURE DOSSIER</span>
-      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1 mb-1" id="modalWineTitle">Cà dei Frati “I Frati” Lugana DOC</h2>
-      <p class="text-xs text-couture-gold tracking-widest uppercase mb-4" id="modalWineSub">盧加納修道士白酒 2025</p>
-
-      <div class="h-px bg-gradient-to-r from-couture-gold/60 via-zinc-700 to-transparent my-4"></div>
-
-      <!-- Critical Review Quotes -->
-      <div class="space-y-4 text-xs sm:text-sm text-zinc-300 leading-relaxed font-sans">
-        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-800">
-          <span class="text-couture-gold font-display text-xs tracking-wider block mb-2 uppercase">✦ 權威酒評解析 CRITIC ESSENTIALS</span>
-          <p id="modalCriticsBody" class="text-zinc-200">
-            Falstaff 2025 年份給出 93 分，James Suckling 連續年份 92 分。這瓶酒拿分不是新聞，拿不到高分才是。
-          </p>
-        </div>
-
-        <div>
-          <span class="text-couture-gold font-display text-xs tracking-wider block mb-1 uppercase">✦ 風土與陳年潛力 TERROIR & AGING</span>
-          <p id="modalTerroirBody">
-            葡萄園躺在加爾達湖南岸，土壤是白堊紀黏土與石灰岩。一口喝下去，冷冽、鹹鮮、俐落到像含了一顆冰過的礦石。它還能陳年，多數白酒兩年就該喝掉，I Frati 放十年反而更狠。
-          </p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 pt-2">
-          <div class="bg-zinc-900/80 p-3 rounded-lg border border-zinc-800">
-            <span class="text-zinc-500 text-[10px] uppercase font-mono block">風味光譜 TASTING NOTES</span>
-            <span class="text-xs text-zinc-200" id="modalFlavor">白花、杏桃、青蘋果、萊姆。酸度俐落，尾韻鹹礦物。</span>
-          </div>
-          <div class="bg-zinc-900/80 p-3 rounded-lg border border-zinc-800">
-            <span class="text-zinc-500 text-[10px] uppercase font-mono block">佐餐與溫度 SERVING</span>
-            <span class="text-xs text-zinc-200" id="modalServing">生蠔、清蒸海鮮、輕乳酪。溫度：10°C。</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer action inside modal -->
-      <div class="mt-6 flex items-center justify-between pt-4 border-t border-zinc-800">
-        <div>
-          <span class="text-[10px] font-mono text-zinc-400 block uppercase">走秀專案售價</span>
-          <span class="text-xl font-serif font-bold text-couture-gold" id="modalPrice">NT$ 700 / 瓶</span>
-        </div>
-        <button onclick="addCurrentWineToCart(); toggleDetailsModal(); toggleOrderDrawer();" class="py-2.5 px-6 rounded bg-couture-gold text-black font-semibold text-xs tracking-widest uppercase hover:brightness-110">
-          立即預訂此款
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FLOATING CTA BUTTON (ALWAYS ABOVE LEGAL WARNING BAR) -->
-  <aside class="fixed bottom-[11vh] right-4 sm:right-8 z-30">
-    <button onclick="toggleOrderDrawer()" class="flex items-center space-x-2 bg-gradient-to-r from-couture-gold to-couture-bronze text-black px-4 py-3 rounded-full font-display font-bold text-xs tracking-widest uppercase shadow-[0_0_25px_rgba(212,175,55,0.5)] hover:scale-105 active:scale-95 transition-all">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-      <span>預訂洽詢專線 (<span id="floatingCartNum">0</span>)</span>
-    </button>
-  </aside>
-
-  <!-- BRAND INFO FOOTER SECTION (SEO & TRUST) -->
-  <footer class="bg-black border-t border-zinc-900 py-10 px-4 sm:px-8 text-zinc-500 text-xs">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div>
-        <div class="flex items-center space-x-2 text-couture-gold font-display font-bold tracking-widest text-sm mb-3">
-          <span>TAIXUAN WINE</span>
-          <span class="text-zinc-600">/</span>
-          <span class="font-serif text-white">汰暄酒業</span>
-        </div>
-        <p class="text-zinc-400 text-xs leading-relaxed mb-2">
-          精選全球獨立酒莊、列級名莊與新派先驅。以高級訂製伸展台的嚴苛眼光，只呈獻具備頂級風土靈魂的稀缺佳釀。
-        </p>
-        <p class="font-mono text-[11px] text-zinc-500">統一編號：90898370</p>
-      </div>
-
-      <div>
-        <h4 class="font-display text-white text-xs tracking-widest uppercase mb-3 text-couture-gold">CONTACT & BOUTIQUE</h4>
-        <p class="text-zinc-400">專線：02-23650988</p>
-        <p class="text-zinc-400">地址：台北市大安區新生南路三段20號之一 1F</p>
-        <p class="text-zinc-400">營業時間：週一至週五 9:00 ~ 17:00 (週末/例假日公休)</p>
-      </div>
-
-      <div>
-        <h4 class="font-display text-white text-xs tracking-widest uppercase mb-3 text-couture-gold">SERVICE PROMISE</h4>
-        <p class="text-zinc-400 leading-relaxed">
-          全系列酒款原廠冷鏈直配，保證溫控恆溫酒窖儲藏。支援企業採購、春酒晚宴、私人侍酒窖藏顧問服務。
-        </p>
-      </div>
-    </div>
+    <span class="legal-warning-text">禁止酒駕</span>
   </footer>
 
-  <!-- NOTIFICATION TOAST -->
-  <div id="toastNotification" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-couture-gold text-black px-5 py-2.5 rounded-full font-medium text-xs shadow-2xl flex items-center space-x-2 transform -translate-y-12 opacity-0 pointer-events-none transition-all duration-300">
-    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-    <span id="toastMsg">已加入預訂清單</span>
-  </div>
-
-  <!-- FIXED LEGAL MANDATORY WARNING BAR (10vh height, min 50px, max 80px) -->
-  <div class="fixed bottom-0 left-0 right-0 z-50 bg-black text-white border-t border-zinc-700/60 flex items-center justify-center select-none" style="height: 10vh; min-height: 52px; max-height: 80px;">
-    <div class="max-w-7xl mx-auto px-4 w-full flex items-center justify-center space-x-4 sm:space-x-8 text-sm sm:text-lg font-bold tracking-widest">
-      <span class="whitespace-nowrap">未成年請勿飲酒</span>
-      
-      <!-- Official No Drunk Driving SVG Symbol -->
-      <div class="flex-shrink-0 w-7 h-7 sm:w-9 sm:h-9 text-red-600 flex items-center justify-center">
-        <svg viewBox="0 0 100 100" class="w-full h-full" fill="none">
-          <!-- Outer Red Prohibition Circle & Slash -->
-          <circle cx="50" cy="50" r="44" stroke="#DC2626" stroke-width="8" fill="white"/>
-          <line x1="19" y1="19" x2="81" y2="81" stroke="#DC2626" stroke-width="8" stroke-linecap="round"/>
-          <!-- Car Silhouette (Black) -->
-          <path d="M28 62 L32 50 C33 46 38 44 43 44 L57 44 C62 44 67 46 68 50 L72 62 Z" fill="#111827"/>
-          <circle cx="36" cy="65" r="5" fill="#111827"/>
-          <circle cx="64" cy="65" r="5" fill="#111827"/>
-        </svg>
-      </div>
-
-      <span class="whitespace-nowrap">禁止酒駕</span>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT LOGIC & RUNWAY ENGINE -->
   <script>
-    // COMPLETE DATA OF ALL 12 RUNWAY WINES
-    const runwayWines = [
+    // 12 款走秀酒單資料集
+    const runwayCollection = [
       {
-        id: 1,
-        title: 'Cà dei Frati “I Frati” Lugana DOC',
-        subName: '盧加納修道士白酒',
-        vintage: '2025',
-        region: 'LUGANA DOC, GARDA LAKE, ITALY',
-        price: 'NT$ 700',
-        numericPrice: 700,
-        badgeScore: 'FALSTAFF 93',
-        scores: ['Falstaff 93分', 'James Suckling 92分', 'Gambero Rosso 關鍵推薦'],
-        hook: '「Lugana 之王。不是封號，是義大利酒評圈公認的事實。」',
-        critique: 'Gambero Rosso 稱酒莊在加爾達湖區佔據「無可爭議的關鍵地位」。Falstaff 2025 年份給出 93 分，James Suckling 連續年份 92 分。這瓶酒拿分不是新聞，拿不到高分才是。',
-        terroir: '冰川礦物感，不是形容詞。葡萄園躺在加爾達湖南岸，土壤是白堊紀黏土與石灰岩。冷冽、鹹鮮、俐落。它還能陳年，放十年礦物感更兇，香料與碘味慢慢滲出來。',
-        flavor: '白花、杏桃、青蘋果、萊姆。酸度俐落，尾韻鹹礦物。',
-        pairing: '生蠔、清蒸海鮮、輕乳酪。適飲溫度 10°C。',
-        colorTheme: '#D4AF37',
-        wineType: 'WHITE'
+        look: "LOOK 01",
+        category: "ITALY / LUGANA DOC",
+        nameCn: "Cà dei Frati I Frati 盧加納修道士白酒 2025",
+        nameEn: "Cà dei Frati “I Frati” Lugana DOC 2025",
+        price: "NT$ 700",
+        highlight: "加爾達湖無可爭議之王！Falstaff 93 分，冷冽如冰鎮礦石的極致白酒。",
+        desc: "土壤是白堊紀黏土與石灰岩，一口喝下去鹹鮮、冷冽、俐落。它甚至具備驚人陳年潛力，放十年礦物感與碘香翻倍，裝瓶數年後才是真正最好的模樣。",
+        flavor: "白花、杏桃、青蘋果、萊姆，尾韻鹹礦物",
+        pairing: "生蠔、清蒸海鮮、輕乳酪 (建議適飲溫度 10°C)",
+        img: "01-ca-de-frati-i-frati-lugana.jpg"
       },
       {
-        id: 2,
-        title: 'Château Grand Baril – Gaïa de Grand Baril',
-        subName: '巴里堡酒莊 蓋亞紅酒',
-        vintage: '2015',
-        region: 'RIGHT BANK, BORDEAUX, FRANCE',
-        price: 'NT$ 450',
-        numericPrice: 450,
-        badgeScore: 'WS 97 年份',
-        scores: ['Wine Spectator 97年份', '100% 梅洛', '有機認證'],
-        hook: '「2015 波爾多右岸世紀年份，專家適飲期 2025–2035，剛好踩在巔峰上。」',
-        critique: '2015，波爾多右岸世紀年份。100% 梅洛，有機認證。Wine Spectator 年份圖 97 分。現在開瓶，正值香氣綻放巔峰！',
-        terroir: '純淨有機耕作，完美成熟的梅洛展現深邃黑色漿果與甘甜單寧，波爾多右岸不可多得的高性價比珍釀。',
-        flavor: '黑醋栗、煙燻、雪松、烘焙咖啡。單寧絲滑，餘韻帶礦物。',
-        pairing: '燉牛肉、烤羊排。建議醒酒 30–45 分鐘。',
-        colorTheme: '#7E1D2D',
-        wineType: 'RED'
+        look: "LOOK 02",
+        category: "BORDEAUX RIGHT BANK / 2015",
+        nameCn: "巴里堡酒莊 蓋亞紅酒 2015",
+        nameEn: "Château Grand Baril – Gaïa de Grand Baril 2015",
+        price: "NT$ 450",
+        highlight: "2015 波爾多右岸世紀年份！100% 有機梅洛，踩在十年陳年適飲巔峰。",
+        desc: "Wine Spectator 年份圖評予 97 世紀高分。成熟豐潤的黑果被雪松與咖啡香料包裹，現在開瓶正處黃金期。",
+        flavor: "黑醋栗、煙燻、雪松、烘焙咖啡，單寧絲滑",
+        pairing: "燉牛肉、烤羊排 (建議醒酒 30–45 分鐘)",
+        img: "02-gaia-de-grand-baril-2015.jpg"
       },
       {
-        id: 3,
-        title: 'Penfolds Bin 389 Cabernet Shiraz',
-        subName: '389號酒窖卡本內希哈 (小葛蘭許)',
-        vintage: '2022',
-        region: 'SOUTH AUSTRALIA',
-        price: 'NT$ 2200',
-        numericPrice: 2200,
-        badgeScore: 'MW 97 / TRIPLE 97',
-        scores: ['Andrew Caillard MW 97', 'Ken Gargett 97', 'Ray Jordan 97'],
-        hook: '「『小葛蘭許』。用 Grange 用過的桶熟成，三張 97 分沒在客氣。」',
-        critique: '澳洲拍賣市場流通率最高的傳奇紅酒之一。2021/2022 年份評分驚艷四座，三位國際權威齊給 97 分！',
-        terroir: '結合卡本內的結構與希哈的豐厚飽滿，於 Grange 御用美國橡木桶熟成，極具收藏與升值空間。',
-        flavor: '黑莓、黑巧克力、摩卡。單寧細緻如烏龍茶，尾韻長。',
-        pairing: '烤羊排、黑胡椒牛排。陳年潛力 20–25 年。',
-        colorTheme: '#8A1828',
-        wineType: 'RED'
+        look: "LOOK 03",
+        category: "AUSTRALIA / BIN SERIES",
+        nameCn: "奔富 389號酒窖卡本內希哈 2022",
+        nameEn: "Penfolds Bin 389 Cabernet Shiraz 2022",
+        price: "NT$ 2,200",
+        highlight: "傳奇「小葛蘭許」！Andrew Caillard MW 97 等三張 97 滿貫背書。",
+        desc: "使用旗艦 Grange 使用過的橡木桶熟成，澳洲拍賣市場最具流動性指標。黑巧克力與細緻如烏龍茶的單寧質地。",
+        flavor: "黑莓、黑巧克力、摩卡，極具架構張力",
+        pairing: "黑胡椒牛排、碳烤羊排 (陳年潛力 20–25 年)",
+        img: "03-penfolds-bin-389.jpg"
       },
       {
-        id: 4,
-        title: 'Château Grand Médoc Cru Bourgeois',
-        subName: '格蘭美多克酒莊中級莊紅酒',
-        vintage: '2020',
-        region: 'HÉDOC, BORDEAUX, FRANCE',
-        price: 'NT$ 600',
-        numericPrice: 600,
-        badgeScore: 'CRU BOURGEOIS',
-        scores: ['中級莊認證', '左岸三連傑出年份收尾', '適飲至 2030'],
-        hook: '「2020 波爾多左岸三連傑出年份的收尾，把葡萄逼到極致成熟。」',
-        critique: '高溫乾燥的夏天，把葡萄逼出極致成熟度。堅挺的單寧骨架與純熟果香完美融匯。',
-        terroir: '典型美多克礫石土壤，排水卓越，賦予葡萄酒堅實架構與煙燻雪松氣質。',
-        flavor: '成熟黑果、香料、煙燻。結構堅實，單寧飽滿。',
-        pairing: '紅肉、硬質乳酪。適飲至 2030 年。',
-        colorTheme: '#6B1624',
-        wineType: 'RED'
+        look: "LOOK 04",
+        category: "BORDEAUX CRU BOURGEOIS / 2020",
+        nameCn: "格蘭美多克酒莊 中級莊 2020",
+        nameEn: "Château Grand Médoc Cru Bourgeois 2020",
+        price: "NT$ 600",
+        highlight: "波爾多左岸三連傑出年份收尾之作！成熟黑果與強健單寧。",
+        desc: "高溫乾燥的 2020 完美夏天將葡萄推向極致成熟，結構厚實飽滿，是波爾多高性價比典範。",
+        flavor: "成熟黑果、香料、煙燻木質",
+        pairing: "熟成牛排、硬質乳酪 (適飲期至 2030)",
+        img: "04-chateau-grand-medoc-2020.jpg"
       },
       {
-        id: 5,
-        title: 'Greywacke Marlborough Chardonnay',
-        subName: '灰瓦岩酒莊 夏多內白酒',
-        vintage: '2023',
-        region: 'MARLBOROUGH, NEW ZEALAND',
-        price: 'NT$ 1200',
-        numericPrice: 1200,
-        badgeScore: 'DECANTER 93 / RP 93',
-        scores: ['Decanter 93', 'Robert Parker 93', 'Cloudy Bay 前首席釀酒師'],
-        hook: '「內行人叫它『南半球的高登查里曼』，Kevin Judd 迄今最佳夏多內。」',
-        critique: 'Kevin Judd，Cloudy Bay 前首席釀酒師，25 年後獨立創立。Wine Advocate 稱「Kevin Judd 迄今最佳夏多內」，兼具布根地複雜度與紐西蘭純淨張力。',
-        terroir: '灰瓦岩石土質賦予酒體冷峻礦物核心，天然酵母發酵與法桶陳釀帶來榛果與棕奶油之層次。',
-        flavor: '黃蘋果、白桃、榛果、棕奶油。酸度精準，張力十足。',
-        pairing: '烤雞、奶油海鮮、香煎干貝。',
-        colorTheme: '#D3B14B',
-        wineType: 'WHITE'
+        look: "LOOK 05",
+        category: "NEW ZEALAND / MARLBOROUGH",
+        nameCn: "灰瓦岩酒莊 夏多內白酒 2023",
+        nameEn: "Greywacke Marlborough Chardonnay 2023",
+        price: "NT$ 1,200",
+        highlight: "南半球高登查里曼！Cloudy Bay 前首席釀酒師 Kevin Judd 獨立巔峰代表作。",
+        desc: "Wine Advocate 稱其為 Kevin Judd 迄今最佳夏多內，Decanter 與 Robert Parker 雙評 93 分，兼具布根地複雜度與紐西蘭純淨張力。",
+        flavor: "黃蘋果、白桃、榛果、棕奶油與溫潤礦石",
+        pairing: "法式烤雞、奶油香煎海鮮",
+        img: "05-greywacke-marlborough-chardonnay.jpg"
       },
       {
-        id: 6,
-        title: 'Château La Dominique Grand Cru Classé',
-        subName: '多明尼克堡 聖愛美濃列級莊',
-        vintage: '2021',
-        region: 'SAINT-ÉMILION GRAND CRU, BORDEAUX',
-        price: 'NT$ 2150',
-        numericPrice: 2150,
-        badgeScore: 'JS 95-96 諾貝爾宴會酒',
-        scores: ['James Suckling 95-96', '諾貝爾獎頒獎晚宴用酒', '緊鄰白馬與飛卓'],
-        hook: '「聖愛美濃列級莊，葡萄園緊貼白馬與飛卓莊園的豪門血統。」',
-        critique: '2001 年份獲選為諾貝爾獎頒獎晚宴用酒。2021 年份再度狂攬 James Suckling 95–96 高分讚譽，優雅至極。',
-        terroir: '風土位置無可匹敵，毗鄰 Cheval Blanc，兼具黏土與礫石之長，孕育絲絨般奢華單寧。',
-        flavor: '黑果、松露、甘草、細緻雪松。酒體飽滿，單寧極致柔滑。',
-        pairing: '鴨胸、野菇黑松露燉飯、和牛。',
-        colorTheme: '#580F1E',
-        wineType: 'RED'
+        look: "LOOK 06",
+        category: "SAINT-ÉMILION GRAND CRU CLASSÉ",
+        nameCn: "多明尼克堡 聖愛美濃列級莊 2021",
+        nameEn: "Château La Dominique Grand Cru Classé 2021",
+        price: "NT$ 2,150",
+        highlight: "諾貝爾頒獎晚宴名莊！葡萄園緊鄰白馬堡與飛卓堡，JS 95–96 分。",
+        desc: "坐落右岸名門心臟地帶，黑果深度交織奢華松露與甘草香氣，單寧如天鵝絨般滑順。",
+        flavor: "黑果、黑松露、甘草、絲絨單寧",
+        pairing: "香煎鴨胸、黑松露野菇燉飯",
+        img: "06-chateau-la-dominique.jpg"
       },
       {
-        id: 7,
-        title: 'Domaine du Pégau Châteauneuf-du-Pape',
-        subName: '教皇新堡精選 “Cuvée Réservée”',
-        vintage: '2019',
-        region: 'RHÔNE VALLEY, FRANCE',
-        price: 'NT$ 1900',
-        numericPrice: 1900,
-        badgeScore: '《神之雫》第三使徒名莊',
-        scores: ['神之雫 第三使徒酒莊', '老藤整串發酵', '傳統硬派巔峰'],
-        hook: '「Laurence Féraud 堅持整串發酵、不去梗、老橡木桶。教皇新堡最硬派的傳統。」',
-        critique: '《神之雫》第三使徒的本體血統。不隨波逐流，堅持老派大桶陳年，粗獷中有極致的芬芳與細節。',
-        terroir: '鵝卵石大地吸收南法烈陽，將老藤格納希與慕合懷特的原始野性淬鍊成濃縮汁液。',
-        flavor: '黑莓、皮革、普羅旺斯草本香料、煙燻肉。深沉強勁。',
-        pairing: '燉羊肉、野味、炭火燒烤。',
-        colorTheme: '#62101F',
-        wineType: 'RED'
+        look: "LOOK 07",
+        category: "RHÔNE / CHÂTEAUNEUF-DU-PAPE",
+        nameCn: "佩高酒莊 教皇新堡精選紅酒 2019",
+        nameEn: "Domaine du Pégau Châteauneuf-du-Pape 2019",
+        price: "NT$ 1,900",
+        highlight: "《神之雫》第三使徒酒莊！整串發酵不去梗，教皇新堡最硬派傳統風土。",
+        desc: "女莊主 Laurence 堅守家族百年古法，粗獷中帶有不可思議的細緻香氣與辛香料深度。",
+        flavor: "黑莓、皮革、普羅旺斯百里香、煙燻肉氣息",
+        pairing: "普羅旺斯燉羊肉、野味野禽",
+        img: "07-domaine-du-pegau-cuvee-reservee.jpg"
       },
       {
-        id: 8,
-        title: 'Réserve de la Comtesse',
-        subName: '彼瓊拉隆堡二軍 (碧尚女爵二軍)',
-        vintage: '2018',
-        region: 'PAUILLAC, BORDEAUX, FRANCE',
-        price: 'NT$ 1600',
-        numericPrice: 1600,
-        badgeScore: 'PAUILLAC FEMININE ICON',
-        scores: ['1874 年波爾多二軍先驅', '碧尚女爵直系傳承', '極度絲滑單寧'],
-        hook: '「酒友稱它『波雅克最具女性優雅氣質的紅酒』。」',
-        critique: '1874 年創立，波爾多歷史上二軍酒先鋒。共享一級名莊般的溫柔淬鍊，精緻度令人神迷。',
-        terroir: '波雅克得天獨厚的深層礫石，帶來尊貴氣息；較高比例的梅洛賦予如絲絹般柔軟的滑順感。',
-        flavor: '黑醋栗、紫羅蘭、雪松、石墨。單寧極度絲滑細膩。',
-        pairing: '精緻禽類、小牛肉、熟成火腿。',
-        colorTheme: '#5E1B27',
-        wineType: 'RED'
+        look: "LOOK 08",
+        category: "PAUILLAC / SECOND WINE",
+        nameCn: "彼瓊拉隆堡二軍 2018 (碧尚女爵二軍)",
+        nameEn: "Réserve de la Comtesse 2018",
+        price: "NT$ 1,600",
+        highlight: "波雅克最具女性優雅氣質名酒！波爾多二軍酒的開創者。",
+        desc: "1874 年創立，承襲女爵堡高比例梅洛帶來的柔順與波雅克卡本內的深邃骨架，極度絲滑迷人。",
+        flavor: "黑醋栗、紫羅蘭花香、雪松木",
+        pairing: "烤春雞、小牛肉排",
+        img: "08-reserve-de-la-comtesse.jpg"
       },
       {
-        id: 9,
-        title: 'Robert Mondavi Napa Valley Cabernet Sauvignon',
-        subName: '蒙岱維那帕谷卡本內蘇維濃',
-        vintage: '2022',
-        region: 'NAPA VALLEY, CALIFORNIA, USA',
-        price: 'NT$ 1300',
-        numericPrice: 1300,
-        badgeScore: 'NAPA VALLEY BENCHMARK',
-        scores: ['加州葡萄酒之父', '那帕谷產區級核心', '法桶 15-18 個月'],
-        hook: '「加州葡萄酒之父創立。跟入門款 Private Selection 完全是兩件事。」',
-        critique: '那帕谷核心產區手工採收，法桶 15–18 個月熟成，近三分之一新桶。飽滿大氣，美國膜拜葡萄酒的基石之作。',
-        terroir: '那帕谷溫暖陽光與清涼海風交織，賦予果實深濃紫紅色彩與強勁結構。',
-        flavor: '黑醋栗、黑櫻桃、香草、烘烤橡木。果香甜美，結構大氣磅礴。',
-        pairing: '肋眼牛排、美式炭烤BBQ。',
-        colorTheme: '#501622',
-        wineType: 'RED'
+        look: "LOOK 09",
+        category: "NAPA VALLEY / CABERNET",
+        nameCn: "蒙岱維 那帕谷卡本內 2022",
+        nameEn: "Robert Mondavi Napa Valley Cabernet 2022",
+        price: "NT$ 1,300",
+        highlight: "加州葡萄酒之父傳奇產區級！近三分之一全新法式橡木桶陳年。",
+        desc: "完全不同於入門款。手工嚴選果實，大器宏偉的果香與烘烤橡木香氣，展現典型那帕谷陽光與深度。",
+        flavor: "黑櫻桃、香草豆莢、烘烤橡木、甜美深黑果",
+        pairing: "頂級肋眼牛排、炭火美式燒肉",
+        img: "09-robert-mondavi-napa-cabernet.jpg"
       },
       {
-        id: 10,
-        title: 'Rol de Valentin',
-        subName: '情人堡二軍紅酒',
-        vintage: '2022',
-        region: 'SAINT-ÉMILION, BORDEAUX',
-        price: 'NT$ 1500',
-        numericPrice: 1500,
-        badgeScore: 'JS 93-94 超高讚譽',
-        scores: ['James Suckling 93-94', '聖愛美濃名莊情人堡', '法式熱戀風土'],
-        hook: '「把波爾多的頂級風土，釀成一口最溫柔的法式熱戀。」',
-        critique: '來自聖愛美濃名莊情人堡（Château Rol Valentin）的 2022 年份二軍紅酒。完美氣候注入不凡靈魂，一舉拿下 JS 93-94 分！',
-        terroir: '溫柔且富含鈣質的黏土土壤，釀出充滿浪漫花香與柔美果韻的法式純粹。',
-        flavor: '成熟黑莓、新鮮黑布林、玫瑰花瓣、絲絨單寧。溫柔甜美。',
-        pairing: '約會晚餐、炭烤戰斧豬排、法式烤羊排。',
-        colorTheme: '#6B1B2A',
-        wineType: 'RED'
+        look: "LOOK 10",
+        category: "SAINT-ÉMILION / 2022",
+        nameCn: "情人堡二軍紅酒 2022",
+        nameEn: "Rol de Valentin 2022",
+        price: "NT$ 1,500",
+        highlight: "把波爾多頂級風土釀成法式熱戀！James Suckling 93–94 超高讚譽。",
+        desc: "來自聖愛美濃名莊情人堡（Château Rol Valentin）。2022 完美氣候帶出柔美濃郁的浪漫口感。",
+        flavor: "成熟紅黑李、浪漫花香、圓融單寧",
+        pairing: "燭光約會晚餐、炭烤肋排",
+        img: "10-chateau-rol-valentin.jpg"
       },
       {
-        id: 11,
-        title: 'The Prisoner “Thorn” Napa Valley Merlot',
-        subName: '囚徒酒莊「荊棘」梅洛紅酒',
-        vintage: '2017',
-        region: 'NAPA VALLEY, CALIFORNIA, USA',
-        price: 'NT$ 1400',
-        numericPrice: 1400,
-        badgeScore: 'CULT MERLOT DISRUPTOR',
-        scores: ['加州新派膜拜酒品牌', '顛覆梅洛傳統定義', '厚實張力'],
-        hook: '「顛覆梅洛的全部想像。喝過這瓶，你對 Merlot 的定義會重寫。」',
-        critique: '加州膜拜級釀造顛覆者 The Prisoner Wine Company 出品。厚實、張力、層次繁複，打破一般人對梅洛輕柔的刻板印象。',
-        terroir: '嚴選那帕谷老藤混釀少許希哈與馬爾貝克，極度濃縮，充滿加州現代暗黑美學。',
-        flavor: '黑莓、藍莓、摩卡、煙燻、黑胡椒。濃郁飽滿，單寧極具爆發力。',
-        pairing: '煙燻美式燒烤、厚切紐約客牛排。',
-        colorTheme: '#43131C',
-        wineType: 'RED'
+        look: "LOOK 11",
+        category: "NAPA VALLEY CULT WINE",
+        nameCn: "囚徒酒莊 荊棘梅洛紅酒 2017",
+        nameEn: "The Prisoner Wine Company “Thorn” Merlot 2017",
+        price: "NT$ 1,400",
+        highlight: "顛覆梅洛的一切想像！加州新派膜拜風格，濃郁、深沉、單寧厚實有力。",
+        desc: "打破 Merlot 軟弱刻板印象，厚實爆發力與多層次烘焙摩卡香氣，喝過徹底重寫梅洛定義。",
+        flavor: "藍莓、黑莓果醬、摩卡咖啡、冷煙燻",
+        pairing: "厚切紐約客牛排、美式煙燻烤肉",
+        img: "11-the-prisoner-thorn-merlot.jpg"
       },
       {
-        id: 12,
-        title: 'Robert Mondavi Private Selection Cabernet',
-        subName: '蒙岱維酒莊 典藏卡本內蘇維濃 (日常戰鬥酒)',
-        vintage: '2023',
-        region: 'CALIFORNIA, USA',
-        price: 'NT$ 950',
-        numericPrice: 950,
-        badgeScore: 'THE TASTING PANEL 90',
-        scores: ['The Tasting Panel 90', '千元內正經酒評得獎酒', '即開即飲戰鬥酒'],
-        hook: '「教父將藝術往下放的那一層——讓日常餐桌也能沾到那帕谷的光。」',
-        critique: 'Robert Mondavi 曾說：「製作好的酒是門技術，釀造頂尖葡萄酒是藝術。」這瓶 Private Selection 榮獲 90 分，是無須醒酒等待、開瓶即飲的極致日常戰鬥款。',
-        terroir: '加利福尼亞中海岸溫和微風吹拂，保留純淨果香，絲滑單寧裹著黑莓與摩卡，中段浮現沉穩檀香。',
-        flavor: '黑櫻桃、黑莓、黑醋栗、香草、烤橡木、法式咖啡。單寧圓潤乾淨。',
-        pairing: '烤牛排、千層肉醬麵、硬質起司、披薩。即開即飲。',
-        colorTheme: '#5E1B25',
-        wineType: 'RED'
+        look: "LOOK 12",
+        category: "CALIFORNIA / PRIVATE SELECTION",
+        nameCn: "蒙岱維 私藏系列卡本內 2023",
+        nameEn: "Robert Mondavi Private Selection Cabernet 2023",
+        price: "NT$ 650",
+        highlight: "教父級日常戰鬥款！The Tasting Panel 90 分，千元內無敵適飲之選。",
+        desc: "讓日常餐桌也能沾到那帕谷光芒。黑櫻桃與檀香氣息，單寧溫柔圓潤，即開即飲無須等待。",
+        flavor: "黑櫻桃、香草、法式深焙咖啡、細圓單寧",
+        pairing: "炭烤牛排、千層肉醬麵、硬起司",
+        img: "12-robert-mondavi-private-selection-cabernet-sauvignon.jpg"
       }
     ];
 
-    // APPLICATION STATE
     let currentIndex = 0;
-    let isAutoPlaying = false;
-    let autoPlayTimer = null;
-    let cart = [];
 
-    // INITIALIZATION ON WINDOW LOAD
-    window.onload = function() {
-      renderStageDots();
-      renderLookbookTape();
-      updateStageView(0);
-      setupKeyboardNavigation();
-    };
+    // 取得 DOM 節點
+    const bottleContainer = document.getElementById('bottleContainer');
+    const lookNumber = document.getElementById('lookNumber');
+    const lookCategory = document.getElementById('lookCategory');
+    const lookTitleCn = document.getElementById('lookTitleCn');
+    const lookTitleEn = document.getElementById('lookTitleEn');
+    const lookPrice = document.getElementById('lookPrice');
+    const lookHighlight = document.getElementById('lookHighlight');
+    const lookDesc = document.getElementById('lookDesc');
+    const specFlavor = document.getElementById('specFlavor');
+    const specPairing = document.getElementById('specPairing');
+    const filmstripNav = document.getElementById('filmstripNav');
 
-    // UPDATE RUNWAY STAGE WITH ANIMATIONS
-    function updateStageView(index) {
+    // 走秀低頻合成音效 (Web Audio API)
+    function playCatwalkThud() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(110, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(32, audioCtx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      } catch (e) {
+        // 音效靜音忽略
+      }
+    }
+
+    // 更新舞台酒款展示
+    function renderLook(index, triggerSound = true) {
+      const wine = runwayCollection[index];
       currentIndex = index;
-      const wine = runwayWines[index];
 
-      // Update Look Header
-      const lookStr = `LOOK ${String(index + 1).padStart(2, '0')} / 12`;
-      document.getElementById('currentLookHeader').innerText = lookStr;
-      document.getElementById('lookNumber').innerText = lookStr;
-      document.getElementById('wineVintage').innerText = wine.vintage;
-      document.getElementById('wineRegion').innerText = wine.region;
-      document.getElementById('wineTitle').innerText = wine.title;
-      document.getElementById('wineSubName').innerText = wine.subName;
-      document.getElementById('wineHook').innerText = wine.hook;
-      document.getElementById('wineStory').innerText = wine.critique;
-      document.getElementById('wineFlavor').innerText = wine.flavor;
-      document.getElementById('winePairing').innerText = wine.pairing;
-      document.getElementById('winePrice').innerText = wine.price;
-      document.getElementById('badgeTopScore').innerText = wine.badgeScore;
+      if (triggerSound) playCatwalkThud();
 
-      // Update Accolade Badges
-      const badgesContainer = document.getElementById('wineBadges');
-      badgesContainer.innerHTML = '';
-      wine.scores.forEach(score => {
-        const badge = document.createElement('span');
-        badge.className = 'px-2 py-0.5 text-[10px] font-sans font-semibold rounded bg-zinc-900 border border-couture-gold/50 text-couture-goldLight tracking-wider uppercase';
-        badge.innerText = score;
-        badgesContainer.appendChild(badge);
-      });
+      // 文字更新
+      lookNumber.textContent = wine.look;
+      lookCategory.textContent = wine.category;
+      lookTitleCn.textContent = wine.nameCn;
+      lookTitleEn.textContent = wine.nameEn;
+      lookPrice.textContent = wine.price;
+      lookHighlight.textContent = wine.highlight;
+      lookDesc.textContent = wine.desc;
+      specFlavor.textContent = wine.flavor;
+      specPairing.textContent = wine.pairing;
 
-      // Update SVG Wine Bottle Typography & Color Reflections
-      const svgTitle = document.getElementById('svgLabelTitle');
-      const svgVintage = document.getElementById('svgLabelVintage');
-      const svgAppellation = document.getElementById('svgLabelAppellation');
-      
-      // Shorten label name for aesthetic balance
-      let shortTitle = wine.title.split(' ')[0] + ' ' + (wine.title.split(' ')[1] || '');
-      if (shortTitle.length > 14) shortTitle = shortTitle.substring(0, 14);
-      svgTitle.textContent = shortTitle.toUpperCase();
-      svgVintage.textContent = wine.vintage;
-      svgAppellation.textContent = wine.region.split(',')[0];
+      // 圖片更新與淡入動畫
+      bottleContainer.style.opacity = '0';
+      bottleContainer.style.transform = 'translateY(15px) scale(0.95)';
 
-      // Bottle Capsule Color Accent based on wine type
-      const bottleContainer = document.getElementById('bottleContainer');
-      bottleContainer.classList.remove('animate-float');
-      void bottleContainer.offsetWidth; // Trigger DOM reflow for CSS re-trigger
-      bottleContainer.classList.add('animate-float');
-
-      // Update Stage Dots
-      const dots = document.querySelectorAll('.stage-dot');
-      dots.forEach((dot, i) => {
-        if (i === index) {
-          dot.className = 'stage-dot w-6 h-1.5 rounded-full bg-couture-gold transition-all duration-300';
-        } else {
-          dot.className = 'stage-dot w-2 h-1.5 rounded-full bg-zinc-700 hover:bg-zinc-500 transition-all duration-300';
-        }
-      });
-
-      // Update Thumbnail Strip Active State
-      const thumbCards = document.querySelectorAll('.tape-card');
-      thumbCards.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('border-couture-gold', 'bg-zinc-800');
-          card.classList.remove('border-zinc-800', 'bg-zinc-950/60');
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-          card.classList.remove('border-couture-gold', 'bg-zinc-800');
-          card.classList.add('border-zinc-800', 'bg-zinc-950/60');
-        }
-      });
-
-      // Modal info sync
-      document.getElementById('drawerCurrentLookName').innerText = `LOOK ${String(index + 1).padStart(2, '0')}`;
-    }
-
-    // RENDER DOTS
-    function renderStageDots() {
-      const container = document.getElementById('stageDots');
-      container.innerHTML = '';
-      runwayWines.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'stage-dot w-2 h-1.5 rounded-full bg-zinc-700 transition-all';
-        dot.onclick = () => goToSlide(i);
-        container.appendChild(dot);
-      });
-    }
-
-    // RENDER BOTTOM RUNWAY FILMSTRIP / LOOKBOOK
-    function renderLookbookTape() {
-      const tape = document.getElementById('lookbookTape');
-      tape.innerHTML = '';
-
-      runwayWines.forEach((wine, idx) => {
-        const card = document.createElement('div');
-        card.className = `tape-card flex-shrink-0 w-36 sm:w-44 p-2.5 rounded-lg border border-zinc-800 bg-zinc-950/60 cursor-pointer hover:border-couture-gold/70 transition-all duration-300 group`;
-        card.onclick = () => goToSlide(idx);
-
-        card.innerHTML = `
-          <div class="flex items-center justify-between text-[9px] font-mono mb-1 text-zinc-400">
-            <span class="group-hover:text-couture-gold">LOOK ${String(idx + 1).padStart(2, '0')}</span>
-            <span class="text-couture-gold font-bold">${wine.badgeScore.split(' ')[0]}</span>
-          </div>
-          <div class="font-serif text-xs font-bold text-white truncate group-hover:text-amber-200 transition-colors">
-            ${wine.title}
-          </div>
-          <div class="flex items-center justify-between mt-1 text-[10px]">
-            <span class="text-zinc-500 font-sans">${wine.vintage}</span>
-            <span class="font-mono text-zinc-300 font-semibold">${wine.price}</span>
-          </div>
-        `;
-        tape.appendChild(card);
-      });
-    }
-
-    // SLIDE NAVIGATION
-    function nextSlide() {
-      let next = currentIndex + 1;
-      if (next >= runwayWines.length) next = 0;
-      updateStageView(next);
-    }
-
-    function prevSlide() {
-      let prev = currentIndex - 1;
-      if (prev < 0) prev = runwayWines.length - 1;
-      updateStageView(prev);
-    }
-
-    function goToSlide(index) {
-      if (index >= 0 && index < runwayWines.length) {
-        updateStageView(index);
-      }
-    }
-
-    // AUTOPLAY RUNWAY WALK
-    function toggleAutoPlay() {
-      isAutoPlaying = !isAutoPlaying;
-      const btn = document.getElementById('autoRunwayBtn');
-      const text = document.getElementById('autoPlayText');
-      const icon = document.getElementById('autoPlayIcon');
-
-      if (isAutoPlaying) {
-        btn.classList.add('bg-couture-gold', 'text-black');
-        btn.classList.remove('text-couture-goldLight');
-        text.innerText = 'PAUSE WALK';
-        icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-        autoPlayTimer = setInterval(nextSlide, 4500);
-        showToast('走秀模式已啟動 · AUTOWALK ON');
-      } else {
-        btn.classList.remove('bg-couture-gold', 'text-black');
-        btn.classList.add('text-couture-goldLight');
-        text.innerText = 'AUTOWALK';
-        icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
-        clearInterval(autoPlayTimer);
-      }
-    }
-
-    // KEYBOARD NAVIGATION (ARROWS)
-    function setupKeyboardNavigation() {
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') nextSlide();
-        if (e.key === 'ArrowLeft') prevSlide();
-        if (e.key === 'Escape') {
-          closeModals();
-        }
-      });
-    }
-
-    function closeModals() {
-      const drawer = document.getElementById('orderDrawer');
-      const modal = document.getElementById('detailsModal');
-      drawer.classList.remove('opacity-100');
-      drawer.classList.add('opacity-0', 'pointer-events-none');
-      document.getElementById('drawerContent').classList.add('translate-x-full');
-      modal.classList.remove('opacity-100', 'pointer-events-auto');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    // DETAILS MODAL
-    function toggleDetailsModal() {
-      const modal = document.getElementById('detailsModal');
-      const wine = runwayWines[currentIndex];
-
-      if (modal.classList.contains('opacity-0')) {
-        document.getElementById('modalLookIndex').innerText = `LOOK ${String(currentIndex + 1).padStart(2, '0')} · HAUTE COUTURE DOSSIER`;
-        document.getElementById('modalWineTitle').innerText = wine.title;
-        document.getElementById('modalWineSub').innerText = `${wine.subName} (${wine.vintage}) · ${wine.region}`;
-        document.getElementById('modalCriticsBody').innerText = wine.critique;
-        document.getElementById('modalTerroirBody').innerText = wine.terroir;
-        document.getElementById('modalFlavor').innerText = wine.flavor;
-        document.getElementById('modalServing').innerText = wine.pairing;
-        document.getElementById('modalPrice').innerText = `${wine.price} / 瓶`;
-
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-        modal.classList.add('opacity-100', 'pointer-events-auto');
-      } else {
-        modal.classList.remove('opacity-100', 'pointer-events-auto');
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }
-    }
-
-    // CART & ORDER DRAWER
-    function toggleOrderDrawer() {
-      const drawer = document.getElementById('orderDrawer');
-      const content = document.getElementById('drawerContent');
-
-      if (drawer.classList.contains('opacity-0')) {
-        renderCartItems();
-        drawer.classList.remove('opacity-0', 'pointer-events-none');
-        drawer.classList.add('opacity-100');
-        content.classList.remove('translate-x-full');
-      } else {
-        content.classList.add('translate-x-full');
-        setTimeout(() => {
-          drawer.classList.add('opacity-0', 'pointer-events-none');
-          drawer.classList.remove('opacity-100');
-        }, 300);
-      }
-    }
-
-    function openQuickOrderForCurrent() {
-      addCurrentWineToCart();
-      toggleOrderDrawer();
-    }
-
-    function addCurrentWineToCart() {
-      const current = runwayWines[currentIndex];
-      const existing = cart.find(item => item.id === current.id);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({ ...current, qty: 1 });
-      }
-      updateCartBadge();
-      renderCartItems();
-      showToast(`已將 ${current.title} 加入預訂清單`);
-    }
-
-    function updateCartBadge() {
-      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cartCount').innerText = totalCount;
-      document.getElementById('floatingCartNum').innerText = totalCount;
-    }
-
-    function renderCartItems() {
-      const container = document.getElementById('cartItemsList');
-      container.innerHTML = '';
-
-      if (cart.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-8 text-zinc-500 text-xs border border-dashed border-zinc-800 rounded-lg">
-            尚無選取的走秀款酒款。<br>點擊上方按鈕加入當前品項。
-          </div>
-        `;
-        document.getElementById('cartTotalBottles').innerText = '0 瓶';
-        document.getElementById('cartTotalPrice').innerText = 'NT$ 0';
-        return;
-      }
-
-      let totalBottles = 0;
-      let totalPrice = 0;
-
-      cart.forEach((item, index) => {
-        totalBottles += item.qty;
-        totalPrice += (item.numericPrice * item.qty);
-
-        const row = document.createElement('div');
-        row.className = 'flex items-center justify-between p-2.5 rounded bg-zinc-900 border border-zinc-800 text-xs';
-        row.innerHTML = `
-          <div class="truncate pr-2">
-            <span class="text-couture-gold font-mono font-semibold block text-[10px]">LOOK ${String(item.id).padStart(2, '0')}</span>
-            <div class="text-white font-medium truncate">${item.title}</div>
-            <div class="text-zinc-400 font-mono text-[11px]">${item.price}</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 flex items-center justify-center">-</button>
-            <span class="font-mono text-white px-1">${item.qty}</span>
-            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 flex items-center justify-center">+</button>
-            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 ml-1 p-1">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            </button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-
-      document.getElementById('cartTotalBottles').innerText = `${totalBottles} 瓶`;
-      document.getElementById('cartTotalPrice').innerText = `NT$ ${totalPrice.toLocaleString()}`;
-    }
-
-    function changeQty(index, delta) {
-      if (!cart[index]) return;
-      cart[index].qty += delta;
-      if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
-      }
-      updateCartBadge();
-      renderCartItems();
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartBadge();
-      renderCartItems();
-    }
-
-    // FORM SUBMISSION (MOCK ACTION)
-    function submitReservation(e) {
-      e.preventDefault();
-      if (cart.length === 0) {
-        showToast('請先將至少一款走秀酒款加入清單');
-        return;
-      }
-      showToast('感謝您的預訂！汰暄酒業專屬侍酒顧問將盡快與您聯繫。');
       setTimeout(() => {
-        cart = [];
-        updateCartBadge();
-        toggleOrderDrawer();
-      }, 1200);
+        bottleContainer.innerHTML = `
+          <img src="${wine.img}" alt="${wine.nameCn}" onerror="this.onerror=null; this.src='assets/${wine.img}'; this.parentElement.innerHTML='<div class=\\'bottle-placeholder\\'><strong>${wine.look}</strong><p style=\\'font-size:12px;margin-top:8px;\\'>${wine.nameCn}</p></div>';">
+        `;
+        bottleContainer.style.opacity = '1';
+        bottleContainer.style.transform = 'translateY(0) scale(1)';
+      }, 150);
+
+      // 更新下方膠捲高亮
+      document.querySelectorAll('.thumb-item').forEach((el, idx) => {
+        el.classList.toggle('active', idx === index);
+      });
     }
 
-    // TOAST SYSTEM
-    function showToast(msg) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-12');
-      toast.classList.add('opacity-100', 'translate-y-0');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-12');
-        toast.classList.remove('opacity-100', 'translate-y-0');
-      }, 3000);
+    // 初始化下方縮圖膠捲
+    function initFilmstrip() {
+      filmstripNav.innerHTML = '';
+      runwayCollection.forEach((wine, idx) => {
+        const item = document.createElement('div');
+        item.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
+        item.innerHTML = `
+          <span class="thumb-num">${wine.look}</span>
+          <span class="thumb-name">${wine.nameCn.split(' ')[0]}</span>
+        `;
+        item.addEventListener('click', () => {
+          renderLook(idx, true);
+        });
+        filmstripNav.appendChild(item);
+      });
     }
+
+    // 控制項事件
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      const newIdx = (currentIndex - 1 + runwayCollection.length) % runwayCollection.length;
+      renderLook(newIdx, true);
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const newIdx = (currentIndex + 1) % runwayCollection.length;
+      renderLook(newIdx, true);
+    });
+
+    // 鍵盤導覽 (左右方向鍵)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+      if (e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+    });
+
+    // 音樂控制
+    const bgm = document.getElementById('runwayBgm');
+    const bgmBtn = document.getElementById('bgmToggle');
+    const bgmLabel = document.getElementById('bgmLabel');
+    let isBgmPlaying = false;
+
+    bgmBtn.addEventListener('click', () => {
+      if (!isBgmPlaying) {
+        bgm.play().then(() => {
+          isBgmPlaying = true;
+          bgmBtn.classList.add('playing');
+          bgmLabel.textContent = 'RUNWAY AUDIO [ON]';
+        }).catch(err => {
+          alert('請確認音檔已上傳至根目錄或 assets 目錄！');
+        });
+      } else {
+        bgm.pause();
+        isBgmPlaying = false;
+        bgmBtn.classList.remove('playing');
+        bgmLabel.textContent = 'RUNWAY AUDIO [OFF]';
+      }
+    });
+
+    // 預約洽詢視窗互動
+    const inquiryModal = document.getElementById('inquiryModal');
+    const inquireBtn = document.getElementById('inquireBtn');
+    const closeModal = document.getElementById('closeModal');
+    const selectedWineInfo = document.getElementById('selectedWineInfo');
+
+    inquireBtn.addEventListener('click', () => {
+      const current = runwayCollection[currentIndex];
+      selectedWineInfo.textContent = `當前洽詢項目：${current.look} - ${current.nameCn} (${current.price}/瓶)`;
+      inquiryModal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+      inquiryModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === inquiryModal) inquiryModal.style.display = 'none';
+    });
+
+    // 啟動首頁
+    initFilmstrip();
+    renderLook(0, false);
   </script>
 </body>
 </html>
