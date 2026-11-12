@@ -77,7 +77,29 @@
     .header-ctrls {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
+    }
+
+    /* 自動播放控制按鈕 */
+    .autoplay-btn {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: var(--font-display);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .autoplay-btn.paused {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
     }
 
     /* BGM 播放器按鈕 */
@@ -124,7 +146,25 @@
       50% { height: 12px; }
     }
 
-    /* 伸展台大舞台 (Runway Stage) */
+    /* 6秒伸展台進度指示條 */
+    .runway-progress-bar-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 10;
+    }
+
+    .runway-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-muted), var(--gold-primary));
+      transition: width 0.1s linear;
+    }
+
+    /* 伸展台大舞台 */
     .runway-viewport {
       margin-top: 70px;
       min-height: calc(90vh - 70px);
@@ -137,7 +177,6 @@
       overflow: hidden;
     }
 
-    /* 聚光燈特效 */
     .spotlight {
       position: absolute;
       top: 0;
@@ -162,7 +201,6 @@
       align-items: center;
     }
 
-    /* 模特兒/酒瓶 伸展站台 */
     .pedestal-wrap {
       position: relative;
       display: flex;
@@ -214,7 +252,6 @@
       filter: blur(4px);
     }
 
-    /* 酒款文字與細節面板 */
     .look-panel {
       display: flex;
       flex-direction: column;
@@ -338,7 +375,6 @@
       transform: translateY(-2px);
     }
 
-    /* 走秀伸展台切換按鈕 */
     .nav-arrow-btn {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -358,7 +394,7 @@
       color: var(--gold-primary);
     }
 
-    /* 走秀底片縮圖膠捲 (Lookbook Filmstrip) */
+    /* 走秀底片膠捲 */
     .lookbook-strip {
       background: #0f0f13;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -410,7 +446,7 @@
       font-weight: 600;
     }
 
-    /* 預約洽詢抽屜 (Drawer Modal) */
+    /* 預約洽詢視窗 */
     .inquiry-modal {
       position: fixed;
       top: 0;
@@ -462,9 +498,7 @@
       padding-top: 14px;
     }
 
-    /* ========================================================
-       法定酒類警語列（台灣官方標準標誌：機車+汽車+酒杯+紅斜線）
-       ======================================================== */
+    /* 法定酒類警語列（台灣官方標準：機車+汽車+酒杯+紅斜線） */
     .legal-sticky-bar {
       position: fixed;
       bottom: 0;
@@ -521,7 +555,7 @@
 </head>
 <body>
 
-  <!-- 頂部資訊與秀場音樂播放器 -->
+  <!-- 頂部資訊、自動播放切換與秀場音樂播放器 -->
   <header>
     <div class="brand-wrap">
       <div class="brand-name">汰暄酒業</div>
@@ -529,36 +563,45 @@
     </div>
 
     <div class="header-ctrls">
+      <!-- 自動播放切換鈕 -->
+      <button id="autoPlayToggle" class="autoplay-btn" aria-label="Toggle Runway Autoplay">
+        <span id="autoPlayIcon">⏸</span>
+        <span id="autoPlayLabel">AUTOPLAY (6S)</span>
+      </button>
+
+      <!-- BGM 播放器 -->
       <button id="bgmToggle" class="bgm-btn" aria-label="Toggle Runway Soundtrack">
         <div class="eq-bars">
           <div class="eq-bar"></div>
           <div class="eq-bar"></div>
           <div class="eq-bar"></div>
         </div>
-        <span id="bgmLabel">RUNWAY AUDIO [OFF]</span>
+        <span id="bgmLabel">AUDIO [OFF]</span>
       </button>
     </div>
   </header>
 
-  <!-- 音樂載入 (優先讀取當前目錄與 assets 目錄) -->
-<audio id="runwayBgm" loop preload="none">
-  <source src="runway-bgm.mp3" type="audio/mpeg">
-</audio>
+  <!-- 音樂載入 (相容根目錄與 assets/ 目錄) -->
+  <audio id="runwayBgm" loop preload="none">
+    <source src="runway-bgm.mp3" type="audio/mpeg">
+    <source src="assets/runway-bgm.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- 走秀伸展大舞台 -->
-  <main class="runway-viewport">
+  <main class="runway-viewport" id="runwayStage">
+    <!-- 6 秒走秀步態倒數進度條 -->
+    <div class="runway-progress-bar-container">
+      <div class="runway-progress-bar" id="runwayProgressBar"></div>
+    </div>
+
     <div class="spotlight"></div>
 
     <div class="runway-content">
-      <!-- 伸展台展出區 -->
       <div class="pedestal-wrap">
-        <div class="model-bottle" id="bottleContainer">
-          <!-- 圖片將由 JS 動態注入 -->
-        </div>
+        <div class="model-bottle" id="bottleContainer"></div>
         <div class="runway-floor-reflection"></div>
       </div>
 
-      <!-- 酒款秀場細節 -->
       <div class="look-panel">
         <div class="look-meta">
           <span class="look-badge" id="lookNumber">LOOK 01</span>
@@ -598,9 +641,7 @@
   </main>
 
   <!-- 走秀底片膠捲 (Lookbook Strip) -->
-  <nav class="lookbook-strip" id="filmstripNav">
-    <!-- JS 自動產生 12 套 LOOK 縮圖按鈕 -->
-  </nav>
+  <nav class="lookbook-strip" id="filmstripNav"></nav>
 
   <!-- 洽詢預約視窗 -->
   <div class="inquiry-modal" id="inquiryModal">
@@ -626,31 +667,19 @@
     </div>
   </div>
 
-  <!-- ========================================================
-       法定酒類警語列（台灣官方標準：機車+汽車+酒杯+紅斜線）
-       ======================================================== -->
+  <!-- 法定酒類警語列（台灣官方標準：機車+汽車+酒杯+紅斜線） -->
   <footer class="legal-sticky-bar">
     <span class="legal-warning-text">未成年請勿飲酒</span>
     
-    <!-- 標準法定禁止酒駕標誌 (向量 SVG) -->
     <svg class="dui-official-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="禁止酒駕法定標誌">
-      <!-- 白底與外圍紅圈 -->
       <circle cx="60" cy="60" r="54" fill="#FFFFFF" stroke="#C82323" stroke-width="12"/>
-      
-      <!-- 高腳酒杯剪影 -->
       <path d="M63 30 C63 30 89 30 89 47 C89 59 77 66 77 71 L77 90 L85 90 L85 94 L63 94 L63 90 L71 90 L71 71 C71 67 65 61 64 57 Z" fill="#1C2D37"/>
-      
-      <!-- 摩托車/機車剪影 -->
       <path d="M37 50 L43 55 L39 58 L41 63 L33 63 L29 58 L19 58 L18 63 L27 63 C29 63 30 65 29 67 C28 71 24 72 22 72 C18 72 17 70 17 67 L17 66 L19 59 L19 58 Z" fill="#1C2D37"/>
       <circle cx="24" cy="67" r="4.5" fill="#FFFFFF"/>
       <circle cx="46" cy="67" r="4.5" fill="#FFFFFF"/>
-      
-      <!-- 汽車剪影 -->
       <path d="M46 75 C50 75 54 71 59 71 C67 71 72 75 74 78 L74 85 C74 88 72 90 70 90 L67 90 C67 86 63 84 60 84 C56 84 52 86 52 90 L45 90 C45 86 41 84 38 84 C34 84 30 86 30 90 L32 83 Z" fill="#1C2D37"/>
       <circle cx="40" cy="88" r="4" fill="#FFFFFF"/>
       <circle cx="62" cy="88" r="4" fill="#FFFFFF"/>
-      
-      <!-- 紅色 45 度禁止斜線 -->
       <line x1="22" y1="22" x2="98" y2="98" stroke="#C82323" stroke-width="12" stroke-linecap="round"/>
     </svg>
 
@@ -658,7 +687,6 @@
   </footer>
 
   <script>
-    // 12 款走秀酒單資料集
     const runwayCollection = [
       {
         look: "LOOK 01",
@@ -778,7 +806,7 @@
         desc: "來自聖愛美濃名莊情人堡（Château Rol Valentin）。2022 完美氣候帶出柔美濃郁的浪漫口感。",
         flavor: "成熟紅黑李、浪漫花香、圓融單寧",
         pairing: "燭光約會晚餐、炭烤肋排",
-        img: "10-chateau-rol-valentin.jpg"
+        img: "10-chateau-rol-valentin"
       },
       {
         look: "LOOK 11",
@@ -807,8 +835,13 @@
     ];
 
     let currentIndex = 0;
+    const DURATION = 6000; // 每個產品停留 6 秒
+    let timerStartTime = Date.now();
+    let autoPlayTimer = null;
+    let progressAnimFrame = null;
+    let isAutoPlay = true;
 
-    // 取得 DOM 節點
+    // DOM 節點
     const bottleContainer = document.getElementById('bottleContainer');
     const lookNumber = document.getElementById('lookNumber');
     const lookCategory = document.getElementById('lookCategory');
@@ -820,8 +853,13 @@
     const specFlavor = document.getElementById('specFlavor');
     const specPairing = document.getElementById('specPairing');
     const filmstripNav = document.getElementById('filmstripNav');
+    const progressBar = document.getElementById('runwayProgressBar');
+    const autoPlayBtn = document.getElementById('autoPlayToggle');
+    const autoPlayIcon = document.getElementById('autoPlayIcon');
+    const autoPlayLabel = document.getElementById('autoPlayLabel');
+    const runwayStage = document.getElementById('runwayStage');
 
-    // 走秀低頻合成音效 (Web Audio API)
+    // Web Audio API 走秀沉浸重音
     function playCatwalkThud() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -830,25 +868,22 @@
         osc.type = 'sine';
         osc.frequency.setValueAtTime(110, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(32, audioCtx.currentTime + 0.35);
-        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
         gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + 0.36);
-      } catch (e) {
-        // 音效靜音忽略
-      }
+      } catch (e) {}
     }
 
-    // 更新舞台酒款展示
+    // 更新酒款展示
     function renderLook(index, triggerSound = true) {
       const wine = runwayCollection[index];
       currentIndex = index;
 
       if (triggerSound) playCatwalkThud();
 
-      // 文字更新
       lookNumber.textContent = wine.look;
       lookCategory.textContent = wine.category;
       lookTitleCn.textContent = wine.nameCn;
@@ -859,25 +894,97 @@
       specFlavor.textContent = wine.flavor;
       specPairing.textContent = wine.pairing;
 
-      // 圖片更新與淡入動畫
       bottleContainer.style.opacity = '0';
       bottleContainer.style.transform = 'translateY(15px) scale(0.95)';
 
       setTimeout(() => {
+        // 智慧相容多種副檔名與根目錄/assets目錄
         bottleContainer.innerHTML = `
-          <img src="${wine.img}" alt="${wine.nameCn}" onerror="this.onerror=null; this.src='assets/${wine.img}'; this.parentElement.innerHTML='<div class=\\'bottle-placeholder\\'><strong>${wine.look}</strong><p style=\\'font-size:12px;margin-top:8px;\\'>${wine.nameCn}</p></div>';">
+          <img src="${wine.img}" alt="${wine.nameCn}" 
+               onerror="if(!this.dataset.retried){this.dataset.retried='1'; this.src='assets/${wine.img}';} else if(this.src.indexOf('.jpg')!==-1 && !this.dataset.pngRetried){this.dataset.pngRetried='1'; this.src='${wine.img}.jpg';} else { this.parentElement.innerHTML='<div class=\'bottle-placeholder\'><strong>${wine.look}</strong><p style=\'font-size:12px;margin-top:8px;\'>${wine.nameCn}</p></div>'; }">
         `;
         bottleContainer.style.opacity = '1';
         bottleContainer.style.transform = 'translateY(0) scale(1)';
       }, 150);
 
-      // 更新下方膠捲高亮
       document.querySelectorAll('.thumb-item').forEach((el, idx) => {
         el.classList.toggle('active', idx === index);
+        if (idx === index) {
+          el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
       });
+
+      // 重置 6 秒進度條與倒數計時
+      resetProgress();
     }
 
-    // 初始化下方縮圖膠捲
+    // 倒數計時與進度條動畫
+    function updateProgress() {
+      if (!isAutoPlay) return;
+      const elapsed = Date.now() - timerStartTime;
+      const progress = Math.min((elapsed / DURATION) * 100, 100);
+      progressBar.style.width = progress + '%';
+
+      if (elapsed >= DURATION) {
+        nextLook();
+      } else {
+        progressAnimFrame = requestAnimationFrame(updateProgress);
+      }
+    }
+
+    function resetProgress() {
+      cancelAnimationFrame(progressAnimFrame);
+      timerStartTime = Date.now();
+      progressBar.style.width = '0%';
+      if (isAutoPlay) {
+        progressAnimFrame = requestAnimationFrame(updateProgress);
+      }
+    }
+
+    function nextLook() {
+      const nextIdx = (currentIndex + 1) % runwayCollection.length;
+      renderLook(nextIdx, true);
+    }
+
+    function prevLook() {
+      const prevIdx = (currentIndex - 1 + runwayCollection.length) % runwayCollection.length;
+      renderLook(prevIdx, true);
+    }
+
+    // 自動播放切換
+    function toggleAutoPlay() {
+      isAutoPlay = !isAutoPlay;
+      if (isAutoPlay) {
+        autoPlayBtn.classList.remove('paused');
+        autoPlayIcon.textContent = '⏸';
+        autoPlayLabel.textContent = 'AUTOPLAY (6S)';
+        resetProgress();
+      } else {
+        autoPlayBtn.classList.add('paused');
+        autoPlayIcon.textContent = '▶';
+        autoPlayLabel.textContent = 'PAUSED';
+        cancelAnimationFrame(progressAnimFrame);
+        progressBar.style.width = '0%';
+      }
+    }
+
+    autoPlayBtn.addEventListener('click', toggleAutoPlay);
+
+    // 滑鼠懸停時自動暫停 (方便使用者閱讀)，移開時繼續
+    runwayStage.addEventListener('mouseenter', () => {
+      if (isAutoPlay) {
+        cancelAnimationFrame(progressAnimFrame);
+      }
+    });
+
+    runwayStage.addEventListener('mouseleave', () => {
+      if (isAutoPlay) {
+        timerStartTime = Date.now() - (parseFloat(progressBar.style.width) / 100) * DURATION;
+        progressAnimFrame = requestAnimationFrame(updateProgress);
+      }
+    });
+
+    // 初始化膠捲
     function initFilmstrip() {
       filmstripNav.innerHTML = '';
       runwayCollection.forEach((wine, idx) => {
@@ -894,24 +1001,25 @@
       });
     }
 
-    // 控制項事件
+    // 控制按鈕
     document.getElementById('prevBtn').addEventListener('click', () => {
-      const newIdx = (currentIndex - 1 + runwayCollection.length) % runwayCollection.length;
-      renderLook(newIdx, true);
+      prevLook();
     });
 
     document.getElementById('nextBtn').addEventListener('click', () => {
-      const newIdx = (currentIndex + 1) % runwayCollection.length;
-      renderLook(newIdx, true);
+      nextLook();
     });
 
-    // 鍵盤導覽 (左右方向鍵)
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') document.getElementById('nextBtn').click();
-      if (e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+      if (e.key === 'ArrowRight') nextLook();
+      if (e.key === 'ArrowLeft') prevLook();
+      if (e.key === ' ') {
+        e.preventDefault();
+        toggleAutoPlay();
+      }
     });
 
-    // 音樂控制
+    // 背景音樂
     const bgm = document.getElementById('runwayBgm');
     const bgmBtn = document.getElementById('bgmToggle');
     const bgmLabel = document.getElementById('bgmLabel');
@@ -922,7 +1030,7 @@
         bgm.play().then(() => {
           isBgmPlaying = true;
           bgmBtn.classList.add('playing');
-          bgmLabel.textContent = 'RUNWAY AUDIO [ON]';
+          bgmLabel.textContent = 'AUDIO [ON]';
         }).catch(err => {
           alert('請確認音檔已上傳至根目錄或 assets 目錄！');
         });
@@ -930,11 +1038,11 @@
         bgm.pause();
         isBgmPlaying = false;
         bgmBtn.classList.remove('playing');
-        bgmLabel.textContent = 'RUNWAY AUDIO [OFF]';
+        bgmLabel.textContent = 'AUDIO [OFF]';
       }
     });
 
-    // 預約洽詢視窗互動
+    // 洽詢 Modal
     const inquiryModal = document.getElementById('inquiryModal');
     const inquireBtn = document.getElementById('inquireBtn');
     const closeModal = document.getElementById('closeModal');
@@ -944,14 +1052,20 @@
       const current = runwayCollection[currentIndex];
       selectedWineInfo.textContent = `當前洽詢項目：${current.look} - ${current.nameCn} (${current.price}/瓶)`;
       inquiryModal.style.display = 'flex';
+      // 開啟預約視窗時自動暫停輪播
+      if (isAutoPlay) cancelAnimationFrame(progressAnimFrame);
     });
 
     closeModal.addEventListener('click', () => {
       inquiryModal.style.display = 'none';
+      if (isAutoPlay) resetProgress();
     });
 
     window.addEventListener('click', (e) => {
-      if (e.target === inquiryModal) inquiryModal.style.display = 'none';
+      if (e.target === inquiryModal) {
+        inquiryModal.style.display = 'none';
+        if (isAutoPlay) resetProgress();
+      }
     });
 
     // 啟動首頁
