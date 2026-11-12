@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -120,7 +121,7 @@
 
     .bgm-btn.playing {
       border-color: var(--gold-primary);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
     }
 
     .eq-bars {
@@ -137,9 +138,9 @@
       transition: height 0.2s ease;
     }
 
-    .bgm-btn.playing .eq-bar:nth-child(1) { animation: eqJump 0.8s infinite ease-in-out; }
-    .bgm-btn.playing .eq-bar:nth-child(2) { animation: eqJump 0.6s infinite ease-in-out 0.2s; }
-    .bgm-btn.playing .eq-bar:nth-child(3) { animation: eqJump 1.0s infinite ease-in-out 0.4s; }
+    .bgm-btn.playing .eq-bar:nth-child(1) { animation: eqJump 0.5s infinite ease-in-out; }
+    .bgm-btn.playing .eq-bar:nth-child(2) { animation: eqJump 0.4s infinite ease-in-out 0.15s; }
+    .bgm-btn.playing .eq-bar:nth-child(3) { animation: eqJump 0.6s infinite ease-in-out 0.3s; }
 
     @keyframes eqJump {
       0%, 100% { height: 3px; }
@@ -177,14 +178,38 @@
       overflow: hidden;
     }
 
+    /* 動態呼吸聚光燈 */
     .spotlight {
       position: absolute;
-      top: 0;
+      top: -10%;
       left: 50%;
       transform: translateX(-50%);
-      width: clamp(300px, 60vw, 800px);
-      height: 100%;
-      background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0) 70%);
+      width: clamp(320px, 65vw, 880px);
+      height: 110%;
+      background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0.03) 45%, rgba(212, 175, 55, 0) 75%);
+      pointer-events: none;
+      z-index: 1;
+      animation: spotlightPulse 4s infinite ease-in-out;
+    }
+
+    @keyframes spotlightPulse {
+      0%, 100% { opacity: 0.75; transform: translateX(-50%) scaleX(0.96); }
+      50% { opacity: 1; transform: translateX(-50%) scaleX(1.04); }
+    }
+
+    /* 伸展台透視地板微光線條 */
+    .runway-perspective-lines {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1400px;
+      height: 38%;
+      background: 
+        linear-gradient(to top, rgba(212, 175, 55, 0.05) 0%, transparent 100%),
+        repeating-linear-gradient(90deg, transparent 0%, transparent 49.8%, rgba(212, 175, 55, 0.12) 50%, transparent 50.2%);
+      clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -208,8 +233,10 @@
       align-items: center;
       justify-content: center;
       min-height: 480px;
+      perspective: 1000px;
     }
 
+    /* 伸展台走秀酒瓶容器：結合登場推進 + 120BPM 微幅節拍浮動 */
     .model-bottle {
       position: relative;
       width: 100%;
@@ -218,14 +245,58 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+      filter: drop-shadow(0 24px 32px rgba(0, 0, 0, 0.85));
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+      overflow: hidden;
+    }
+
+    /* 定格後的 120 BPM 走秀律動呼吸 (克制且有力) */
+    .model-bottle.on-stage {
+      animation: catwalkBeatFloat 1s infinite ease-in-out;
+    }
+
+    @keyframes catwalkBeatFloat {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 24px 32px rgba(0, 0, 0, 0.85));
+      }
+      50% {
+        transform: translateY(-7px) scale(1.018);
+        filter: drop-shadow(0 32px 38px rgba(212, 175, 55, 0.16));
+      }
+    }
+
+    /* 瓶身琉璃高光掃掠特效 (Shimmer Sweep) */
+    .model-bottle.on-stage::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        rgba(255, 255, 255, 0) 20%,
+        rgba(243, 229, 171, 0.18) 50%,
+        rgba(255, 255, 255, 0) 80%
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: bottleLightSweep 4.5s infinite ease-in-out;
+    }
+
+    @keyframes bottleLightSweep {
+      0%, 40% { left: -120%; opacity: 0; }
+      55% { opacity: 1; }
+      85%, 100% { left: 160%; opacity: 0; }
     }
 
     .model-bottle img {
       max-height: 100%;
       max-width: 100%;
       object-fit: contain;
+      position: relative;
+      z-index: 2;
     }
 
     .bottle-placeholder {
@@ -243,19 +314,33 @@
       padding: 20px;
     }
 
+    /* 伸展台聚光燈地面反光：隨節拍同步呼吸 */
     .runway-floor-reflection {
-      width: 280px;
-      height: 24px;
-      background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.35) 0%, transparent 75%);
+      width: 290px;
+      height: 26px;
+      background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.42) 0%, rgba(212, 175, 55, 0.1) 50%, transparent 78%);
       border-radius: 50%;
-      margin-top: -12px;
-      filter: blur(4px);
+      margin-top: -10px;
+      filter: blur(5px);
+      animation: floorBeatGlow 1s infinite ease-in-out;
     }
 
+    @keyframes floorBeatGlow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(0.92); opacity: 0.55; }
+    }
+
+    /* 右側酒款資訊面板：切換時微幅滑動定格 */
     .look-panel {
       display: flex;
       flex-direction: column;
       gap: 16px;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    }
+
+    .look-panel.transitioning {
+      opacity: 0.25;
+      transform: translateX(14px);
     }
 
     .look-meta {
@@ -563,13 +648,11 @@
     </div>
 
     <div class="header-ctrls">
-      <!-- 自動播放切換鈕 -->
       <button id="autoPlayToggle" class="autoplay-btn" aria-label="Toggle Runway Autoplay">
         <span id="autoPlayIcon">⏸</span>
         <span id="autoPlayLabel">AUTOPLAY (6S)</span>
       </button>
 
-      <!-- BGM 播放器 -->
       <button id="bgmToggle" class="bgm-btn" aria-label="Toggle Runway Soundtrack">
         <div class="eq-bars">
           <div class="eq-bar"></div>
@@ -581,7 +664,7 @@
     </div>
   </header>
 
-  <!-- 音樂載入 (相容根目錄與 assets/ 目錄) -->
+  <!-- 音樂載入 -->
   <audio id="runwayBgm" loop preload="auto">
     <source src="runway-bgm.mp3" type="audio/mpeg">
     <source src="assets/runway-bgm.mp3" type="audio/mpeg">
@@ -595,6 +678,7 @@
     </div>
 
     <div class="spotlight"></div>
+    <div class="runway-perspective-lines"></div>
 
     <div class="runway-content">
       <div class="pedestal-wrap">
@@ -602,7 +686,7 @@
         <div class="runway-floor-reflection"></div>
       </div>
 
-      <div class="look-panel">
+      <div class="look-panel" id="lookPanel">
         <div class="look-meta">
           <span class="look-badge" id="lookNumber">LOOK 01</span>
           <span class="look-category" id="lookCategory">WHITE WINE / LUGANA DOC</span>
@@ -640,7 +724,7 @@
     </div>
   </main>
 
-  <!-- 走秀底片膠捲 (Lookbook Strip) -->
+  <!-- 走秀底片膠捲 -->
   <nav class="lookbook-strip" id="filmstripNav"></nav>
 
   <!-- 洽詢預約視窗 -->
@@ -667,7 +751,7 @@
     </div>
   </div>
 
-  <!-- 法定酒類警語列（台灣官方標準：機車+汽車+酒杯+紅斜線） -->
+  <!-- 法定酒類警語列 -->
   <footer class="legal-sticky-bar">
     <span class="legal-warning-text">未成年請勿飲酒</span>
     
@@ -687,7 +771,6 @@
   </footer>
 
   <script>
-    // 12 款酒清單（全面改為 .png 檔，並支援自動降級 fallback 至 jpg 與 assets/ 目錄）
     const runwayCollection = [
       {
         look: "LOOK 01",
@@ -699,7 +782,7 @@
         desc: "土壤是白堊紀黏土與石灰岩，一口喝下去鹹鮮、冷冽、俐落。它甚至具備驚人陳年潛力，放十年礦物感與碘香翻倍，裝瓶數年後才是真正最好的模樣。",
         flavor: "白花、杏桃、青蘋果、萊姆，尾韻鹹礦物",
         pairing: "生蠔、清蒸海鮮、輕乳酪 (建議適飲溫度 10°C)",
-        img: "01-ca-de-frati-i-frati-lugana.png"
+        fileBase: "01-ca-de-frati-i-frati-lugana"
       },
       {
         look: "LOOK 02",
@@ -711,7 +794,7 @@
         desc: "Wine Spectator 年份圖評予 97 世紀高分。成熟豐潤的黑果被雪松與咖啡香料包裹，現在開瓶正處黃金期。",
         flavor: "黑醋栗、煙燻、雪松、烘焙咖啡，單寧絲滑",
         pairing: "燉牛肉、烤羊排 (建議醒酒 30–45 分鐘)",
-        img: "02-gaia-de-grand-baril-2015.png"
+        fileBase: "02-gaia-de-grand-baril-2015"
       },
       {
         look: "LOOK 03",
@@ -723,7 +806,7 @@
         desc: "使用旗艦 Grange 使用過的橡木桶熟成，澳洲拍賣市場最具流動性指標。黑巧克力與細緻如烏龍茶的單寧質地。",
         flavor: "黑莓、黑巧克力、摩卡，極具架構張力",
         pairing: "黑胡椒牛排、碳烤羊排 (陳年潛力 20–25 年)",
-        img: "03-penfolds-bin-389.png"
+        fileBase: "03-penfolds-bin-389"
       },
       {
         look: "LOOK 04",
@@ -735,7 +818,7 @@
         desc: "高溫乾燥的 2020 完美夏天將葡萄推向極致成熟，結構厚實飽滿，是波爾多高性價比典範。",
         flavor: "成熟黑果、香料、煙燻木質",
         pairing: "熟成牛排、硬質乳酪 (適飲期至 2030)",
-        img: "04-chateau-grand-medoc-2020.png"
+        fileBase: "04-chateau-grand-medoc-2020"
       },
       {
         look: "LOOK 05",
@@ -747,7 +830,7 @@
         desc: "Wine Advocate 稱其為 Kevin Judd 迄今最佳夏多內，Decanter 與 Robert Parker 雙評 93 分，兼具布根地複雜度與紐西蘭純淨張力。",
         flavor: "黃蘋果、白桃、榛果、棕奶油與溫潤礦石",
         pairing: "法式烤雞、奶油香煎海鮮",
-        img: "05-greywacke-marlborough-chardonnay.png"
+        fileBase: "05-greywacke-marlborough-chardonnay"
       },
       {
         look: "LOOK 06",
@@ -759,7 +842,7 @@
         desc: "坐落右岸名門心臟地帶，黑果深度交織奢華松露與甘草香氣，單寧如天鵝絨般滑順。",
         flavor: "黑果、黑松露、甘草、絲絨單寧",
         pairing: "香煎鴨胸、黑松露野菇燉飯",
-        img: "06-chateau-la-dominique.png"
+        fileBase: "06-chateau-la-dominique"
       },
       {
         look: "LOOK 07",
@@ -771,7 +854,7 @@
         desc: "女莊主 Laurence 堅守家族百年古法，粗獷中帶有不可思議的細緻香氣與辛香料深度。",
         flavor: "黑莓、皮革、普羅旺斯百里香、煙燻肉氣息",
         pairing: "普羅旺斯燉羊肉、野味野禽",
-        img: "07-domaine-du-pegau-cuvee-reservee.png"
+        fileBase: "07-domaine-du-pegau-cuvee-reservee"
       },
       {
         look: "LOOK 08",
@@ -783,7 +866,7 @@
         desc: "1874 年創立，承襲女爵堡高比例梅洛帶來的柔順與波雅克卡本內的深邃骨架，極度絲滑迷人。",
         flavor: "黑醋栗、紫羅蘭花香、雪松木",
         pairing: "烤春雞、小牛肉排",
-        img: "08-reserve-de-la-comtesse.png"
+        fileBase: "08-reserve-de-la-comtesse"
       },
       {
         look: "LOOK 09",
@@ -795,7 +878,7 @@
         desc: "完全不同於入門款。手工嚴選果實，大器宏偉的果香與烘烤橡木香氣，展現典型那帕谷陽光與深度。",
         flavor: "黑櫻桃、香草豆莢、烘烤橡木、甜美深黑果",
         pairing: "頂級肋眼牛排、炭火美式燒肉",
-        img: "09-robert-mondavi-napa-cabernet.png"
+        fileBase: "09-robert-mondavi-napa-cabernet"
       },
       {
         look: "LOOK 10",
@@ -807,7 +890,7 @@
         desc: "來自聖愛美濃名莊情人堡（Château Rol Valentin）。2022 完美氣候帶出柔美濃郁的浪漫口感。",
         flavor: "成熟紅黑李、浪漫花香、圓融單寧",
         pairing: "燭光約會晚餐、炭烤肋排",
-        img: "10-chateau-rol-valentin.png"
+        fileBase: "10-Rol-de-Valentin"
       },
       {
         look: "LOOK 11",
@@ -819,7 +902,7 @@
         desc: "打破 Merlot 軟弱刻板印象，厚實爆發力與多層次烘焙摩卡香氣，喝過徹底重寫梅洛定義。",
         flavor: "藍莓、黑莓果醬、摩卡咖啡、冷煙燻",
         pairing: "厚切紐約客牛排、美式煙燻烤肉",
-        img: "11-the-prisoner-thorn-merlot.png"
+        fileBase: "11-the-prisoner-thorn-merlot"
       },
       {
         look: "LOOK 12",
@@ -831,18 +914,18 @@
         desc: "讓日常餐桌也能沾到那帕谷光芒。黑櫻桃與檀香氣息，單寧溫柔圓潤，即開即飲無須等待。",
         flavor: "黑櫻桃、香草、法式深焙咖啡、細圓單寧",
         pairing: "炭烤牛排、千層肉醬麵、硬起司",
-        img: "12-robert-mondavi-private-selection-cabernet-sauvignon.png"
+        fileBase: "12-robert-mondavi-private-selection-cabernet-sauvignon"
       }
     ];
 
     let currentIndex = 0;
-    const DURATION = 6000; // 每個產品停留 6 秒
+    const DURATION = 6000;
     let timerStartTime = Date.now();
     let progressAnimFrame = null;
     let isAutoPlay = true;
 
-    // DOM 節點
     const bottleContainer = document.getElementById('bottleContainer');
+    const lookPanel = document.getElementById('lookPanel');
     const lookNumber = document.getElementById('lookNumber');
     const lookCategory = document.getElementById('lookCategory');
     const lookTitleCn = document.getElementById('lookTitleCn');
@@ -859,13 +942,11 @@
     const autoPlayLabel = document.getElementById('autoPlayLabel');
     const runwayStage = document.getElementById('runwayStage');
 
-    // 背景音樂元素
     const bgm = document.getElementById('runwayBgm');
     const bgmBtn = document.getElementById('bgmToggle');
     const bgmLabel = document.getElementById('bgmLabel');
     let isBgmPlaying = false;
 
-    // 強制播放音樂函數（配合現代瀏覽器自動播放政策）
     function startMusic() {
       if (isBgmPlaying) return;
       const playPromise = bgm.play();
@@ -874,11 +955,8 @@
           isBgmPlaying = true;
           bgmBtn.classList.add('playing');
           bgmLabel.textContent = 'AUDIO [ON]';
-          // 成功播放後，移除一次性強制觸發監聽
           removeAutoPlayUnlockers();
-        }).catch(() => {
-          // 若瀏覽器自動播放受限，等待第一次點擊或觸控自動解鎖播放
-        });
+        }).catch(() => {});
       }
     }
 
@@ -887,7 +965,6 @@
     }
 
     function addAutoPlayUnlockers() {
-      // 網頁被點開、任意點擊、滑動或按鍵時，強制開啟音樂
       ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
         window.addEventListener(evt, unlockOnFirstInteraction, { passive: true });
       });
@@ -899,13 +976,10 @@
       });
     }
 
-    // Web Audio API 走秀沉浸重音
     function playCatwalkThud() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
@@ -920,48 +994,90 @@
       } catch (e) {}
     }
 
-    // 更新酒款展示
+    function loadWineImage(baseName, altText) {
+      bottleContainer.innerHTML = '';
+      
+      const candidates = [
+        baseName + '.png',
+        'assets/' + baseName + '.png',
+        baseName.toLowerCase() + '.png',
+        baseName + '.jpg',
+        'assets/' + baseName + '.jpg',
+        baseName.toLowerCase() + '.jpg'
+      ];
+      
+      if (baseName.includes('Valentin') || baseName.includes('valentin')) {
+        candidates.push('10-chateau-rol-valentin.png', '10-chateau-rol-valentin.jpg', '10-Rol-de-Valentin.png');
+      }
+
+      let step = 0;
+      const img = new Image();
+      img.alt = altText;
+
+      function tryNext() {
+        if (step < candidates.length) {
+          img.src = candidates[step++];
+        } else {
+          bottleContainer.innerHTML = `
+            <div class="bottle-placeholder">
+              <strong>${runwayCollection[currentIndex].look}</strong>
+              <p style="font-size:12px;margin-top:8px;">${altText}</p>
+            </div>
+          `;
+          activateStagePose();
+        }
+      }
+
+      img.onload = function() {
+        bottleContainer.innerHTML = '';
+        bottleContainer.appendChild(img);
+        activateStagePose();
+      };
+
+      img.onerror = function() {
+        tryNext();
+      };
+
+      tryNext();
+    }
+
+    // 執行伸展台「走上前定格 (Stride & Pose)」動畫
+    function activateStagePose() {
+      bottleContainer.style.opacity = '1';
+      bottleContainer.style.transform = 'translateY(0) scale(1)';
+      lookPanel.classList.remove('transitioning');
+
+      // 待推進定位後啟動節拍微幅律動與高光掃掠
+      setTimeout(() => {
+        bottleContainer.classList.add('on-stage');
+      }, 600);
+    }
+
     function renderLook(index, triggerSound = true) {
       const wine = runwayCollection[index];
       currentIndex = index;
 
       if (triggerSound) playCatwalkThud();
 
-      lookNumber.textContent = wine.look;
-      lookCategory.textContent = wine.category;
-      lookTitleCn.textContent = wine.nameCn;
-      lookTitleEn.textContent = wine.nameEn;
-      lookPrice.textContent = wine.price;
-      lookHighlight.textContent = wine.highlight;
-      lookDesc.textContent = wine.desc;
-      specFlavor.textContent = wine.flavor;
-      specPairing.textContent = wine.pairing;
-
+      // 暫時移除律動狀態，準備從伸展台深處推進登場
+      bottleContainer.classList.remove('on-stage');
       bottleContainer.style.opacity = '0';
-      bottleContainer.style.transform = 'translateY(15px) scale(0.95)';
+      bottleContainer.style.transform = 'translateY(25px) scale(0.86)';
+      lookPanel.classList.add('transitioning');
 
       setTimeout(() => {
-        // 圖片優先載入 .png，若尚未替換則自動退回 .jpg，並支援 assets/ 目錄
-        bottleContainer.innerHTML = `
-          <img src="${wine.img}" alt="${wine.nameCn}" 
-               onerror="
-                if (!this.dataset.step) {
-                  this.dataset.step = '1';
-                  this.src = 'assets/' + '${wine.img}';
-                } else if (this.dataset.step === '1') {
-                  this.dataset.step = '2';
-                  this.src = '${wine.img.replace(/\.png$/i, '.jpg')}';
-                } else if (this.dataset.step === '2') {
-                  this.dataset.step = '3';
-                  this.src = 'assets/' + '${wine.img.replace(/\.png$/i, '.jpg')}';
-                } else {
-                  this.parentElement.innerHTML='<div class=\'bottle-placeholder\'><strong>${wine.look}</strong><p style=\'font-size:12px;margin-top:8px;\'>${wine.nameCn}</p></div>';
-                }
-               ">
-        `;
-        bottleContainer.style.opacity = '1';
-        bottleContainer.style.transform = 'translateY(0) scale(1)';
-      }, 150);
+        lookNumber.textContent = wine.look;
+        lookCategory.textContent = wine.category;
+        lookTitleCn.textContent = wine.nameCn;
+        lookTitleEn.textContent = wine.nameEn;
+        lookPrice.textContent = wine.price;
+        lookHighlight.textContent = wine.highlight;
+        lookDesc.textContent = wine.desc;
+        specFlavor.textContent = wine.flavor;
+        specPairing.textContent = wine.pairing;
+
+        loadWineImage(wine.fileBase, wine.nameCn);
+      }, 180);
 
       document.querySelectorAll('.thumb-item').forEach((el, idx) => {
         el.classList.toggle('active', idx === index);
@@ -973,7 +1089,6 @@
       resetProgress();
     }
 
-    // 倒數計時與進度條動畫
     function updateProgress() {
       if (!isAutoPlay) return;
       const elapsed = Date.now() - timerStartTime;
@@ -1006,7 +1121,6 @@
       renderLook(prevIdx, true);
     }
 
-    // 自動播放切換
     function toggleAutoPlay() {
       isAutoPlay = !isAutoPlay;
       if (isAutoPlay) {
@@ -1025,11 +1139,8 @@
 
     autoPlayBtn.addEventListener('click', toggleAutoPlay);
 
-    // 滑鼠懸停暫停
     runwayStage.addEventListener('mouseenter', () => {
-      if (isAutoPlay) {
-        cancelAnimationFrame(progressAnimFrame);
-      }
+      if (isAutoPlay) cancelAnimationFrame(progressAnimFrame);
     });
 
     runwayStage.addEventListener('mouseleave', () => {
@@ -1039,7 +1150,6 @@
       }
     });
 
-    // 初始化膠捲
     function initFilmstrip() {
       filmstripNav.innerHTML = '';
       runwayCollection.forEach((wine, idx) => {
@@ -1056,7 +1166,6 @@
       });
     }
 
-    // 控制按鈕
     document.getElementById('prevBtn').addEventListener('click', prevLook);
     document.getElementById('nextBtn').addEventListener('click', nextLook);
 
@@ -1069,7 +1178,6 @@
       }
     });
 
-    // 手動 BGM 開關
     bgmBtn.addEventListener('click', () => {
       if (!isBgmPlaying) {
         startMusic();
@@ -1081,7 +1189,6 @@
       }
     });
 
-    // 洽詢 Modal
     const inquiryModal = document.getElementById('inquiryModal');
     const inquireBtn = document.getElementById('inquireBtn');
     const closeModal = document.getElementById('closeModal');
@@ -1106,11 +1213,8 @@
       }
     });
 
-    // 頁面加載完成後啟動
     initFilmstrip();
     renderLook(0, false);
-
-    // 強制嘗試開播音樂 + 監聽任意第一次互動立即開播
     startMusic();
     addAutoPlayUnlockers();
   </script>
