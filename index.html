@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -582,7 +583,7 @@
   </header>
 
   <!-- 音樂載入 (相容根目錄與 assets/ 目錄) -->
-  <audio id="runwayBgm" loop preload="none">
+  <audio id="runwayBgm" loop preload="auto">
     <source src="runway-bgm.mp3" type="audio/mpeg">
     <source src="assets/runway-bgm.mp3" type="audio/mpeg">
   </audio>
@@ -687,6 +688,7 @@
   </footer>
 
   <script>
+    // 12 款酒清單（全面改為 .png 檔，並支援自動降級 fallback 至 jpg 與 assets/ 目錄）
     const runwayCollection = [
       {
         look: "LOOK 01",
@@ -698,7 +700,7 @@
         desc: "土壤是白堊紀黏土與石灰岩，一口喝下去鹹鮮、冷冽、俐落。它甚至具備驚人陳年潛力，放十年礦物感與碘香翻倍，裝瓶數年後才是真正最好的模樣。",
         flavor: "白花、杏桃、青蘋果、萊姆，尾韻鹹礦物",
         pairing: "生蠔、清蒸海鮮、輕乳酪 (建議適飲溫度 10°C)",
-        img: "01-ca-de-frati-i-frati-lugana.jpg"
+        img: "01-ca-de-frati-i-frati-lugana.png"
       },
       {
         look: "LOOK 02",
@@ -710,7 +712,7 @@
         desc: "Wine Spectator 年份圖評予 97 世紀高分。成熟豐潤的黑果被雪松與咖啡香料包裹，現在開瓶正處黃金期。",
         flavor: "黑醋栗、煙燻、雪松、烘焙咖啡，單寧絲滑",
         pairing: "燉牛肉、烤羊排 (建議醒酒 30–45 分鐘)",
-        img: "02-gaia-de-grand-baril-2015.jpg"
+        img: "02-gaia-de-grand-baril-2015.png"
       },
       {
         look: "LOOK 03",
@@ -722,7 +724,7 @@
         desc: "使用旗艦 Grange 使用過的橡木桶熟成，澳洲拍賣市場最具流動性指標。黑巧克力與細緻如烏龍茶的單寧質地。",
         flavor: "黑莓、黑巧克力、摩卡，極具架構張力",
         pairing: "黑胡椒牛排、碳烤羊排 (陳年潛力 20–25 年)",
-        img: "03-penfolds-bin-389.jpg"
+        img: "03-penfolds-bin-389.png"
       },
       {
         look: "LOOK 04",
@@ -734,7 +736,7 @@
         desc: "高溫乾燥的 2020 完美夏天將葡萄推向極致成熟，結構厚實飽滿，是波爾多高性價比典範。",
         flavor: "成熟黑果、香料、煙燻木質",
         pairing: "熟成牛排、硬質乳酪 (適飲期至 2030)",
-        img: "04-chateau-grand-medoc-2020.jpg"
+        img: "04-chateau-grand-medoc-2020.png"
       },
       {
         look: "LOOK 05",
@@ -746,7 +748,7 @@
         desc: "Wine Advocate 稱其為 Kevin Judd 迄今最佳夏多內，Decanter 與 Robert Parker 雙評 93 分，兼具布根地複雜度與紐西蘭純淨張力。",
         flavor: "黃蘋果、白桃、榛果、棕奶油與溫潤礦石",
         pairing: "法式烤雞、奶油香煎海鮮",
-        img: "05-greywacke-marlborough-chardonnay.jpg"
+        img: "05-greywacke-marlborough-chardonnay.png"
       },
       {
         look: "LOOK 06",
@@ -758,7 +760,7 @@
         desc: "坐落右岸名門心臟地帶，黑果深度交織奢華松露與甘草香氣，單寧如天鵝絨般滑順。",
         flavor: "黑果、黑松露、甘草、絲絨單寧",
         pairing: "香煎鴨胸、黑松露野菇燉飯",
-        img: "06-chateau-la-dominique.jpg"
+        img: "06-chateau-la-dominique.png"
       },
       {
         look: "LOOK 07",
@@ -770,7 +772,7 @@
         desc: "女莊主 Laurence 堅守家族百年古法，粗獷中帶有不可思議的細緻香氣與辛香料深度。",
         flavor: "黑莓、皮革、普羅旺斯百里香、煙燻肉氣息",
         pairing: "普羅旺斯燉羊肉、野味野禽",
-        img: "07-domaine-du-pegau-cuvee-reservee.jpg"
+        img: "07-domaine-du-pegau-cuvee-reservee.png"
       },
       {
         look: "LOOK 08",
@@ -782,7 +784,7 @@
         desc: "1874 年創立，承襲女爵堡高比例梅洛帶來的柔順與波雅克卡本內的深邃骨架，極度絲滑迷人。",
         flavor: "黑醋栗、紫羅蘭花香、雪松木",
         pairing: "烤春雞、小牛肉排",
-        img: "08-reserve-de-la-comtesse.jpg"
+        img: "08-reserve-de-la-comtesse.png"
       },
       {
         look: "LOOK 09",
@@ -794,7 +796,7 @@
         desc: "完全不同於入門款。手工嚴選果實，大器宏偉的果香與烘烤橡木香氣，展現典型那帕谷陽光與深度。",
         flavor: "黑櫻桃、香草豆莢、烘烤橡木、甜美深黑果",
         pairing: "頂級肋眼牛排、炭火美式燒肉",
-        img: "09-robert-mondavi-napa-cabernet.jpg"
+        img: "09-robert-mondavi-napa-cabernet.png"
       },
       {
         look: "LOOK 10",
@@ -806,7 +808,7 @@
         desc: "來自聖愛美濃名莊情人堡（Château Rol Valentin）。2022 完美氣候帶出柔美濃郁的浪漫口感。",
         flavor: "成熟紅黑李、浪漫花香、圓融單寧",
         pairing: "燭光約會晚餐、炭烤肋排",
-        img: "10-chateau-rol-valentin"
+        img: "10-chateau-rol-valentin.png"
       },
       {
         look: "LOOK 11",
@@ -818,7 +820,7 @@
         desc: "打破 Merlot 軟弱刻板印象，厚實爆發力與多層次烘焙摩卡香氣，喝過徹底重寫梅洛定義。",
         flavor: "藍莓、黑莓果醬、摩卡咖啡、冷煙燻",
         pairing: "厚切紐約客牛排、美式煙燻烤肉",
-        img: "11-the-prisoner-thorn-merlot.jpg"
+        img: "11-the-prisoner-thorn-merlot.png"
       },
       {
         look: "LOOK 12",
@@ -830,14 +832,13 @@
         desc: "讓日常餐桌也能沾到那帕谷光芒。黑櫻桃與檀香氣息，單寧溫柔圓潤，即開即飲無須等待。",
         flavor: "黑櫻桃、香草、法式深焙咖啡、細圓單寧",
         pairing: "炭烤牛排、千層肉醬麵、硬起司",
-        img: "12-robert-mondavi-private-selection-cabernet-sauvignon.jpg"
+        img: "12-robert-mondavi-private-selection-cabernet-sauvignon.png"
       }
     ];
 
     let currentIndex = 0;
     const DURATION = 6000; // 每個產品停留 6 秒
     let timerStartTime = Date.now();
-    let autoPlayTimer = null;
     let progressAnimFrame = null;
     let isAutoPlay = true;
 
@@ -859,10 +860,53 @@
     const autoPlayLabel = document.getElementById('autoPlayLabel');
     const runwayStage = document.getElementById('runwayStage');
 
+    // 背景音樂元素
+    const bgm = document.getElementById('runwayBgm');
+    const bgmBtn = document.getElementById('bgmToggle');
+    const bgmLabel = document.getElementById('bgmLabel');
+    let isBgmPlaying = false;
+
+    // 強制播放音樂函數（配合現代瀏覽器自動播放政策）
+    function startMusic() {
+      if (isBgmPlaying) return;
+      const playPromise = bgm.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isBgmPlaying = true;
+          bgmBtn.classList.add('playing');
+          bgmLabel.textContent = 'AUDIO [ON]';
+          // 成功播放後，移除一次性強制觸發監聽
+          removeAutoPlayUnlockers();
+        }).catch(() => {
+          // 若瀏覽器自動播放受限，等待第一次點擊或觸控自動解鎖播放
+        });
+      }
+    }
+
+    function unlockOnFirstInteraction() {
+      startMusic();
+    }
+
+    function addAutoPlayUnlockers() {
+      // 網頁被點開、任意點擊、滑動或按鍵時，強制開啟音樂
+      ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+        window.addEventListener(evt, unlockOnFirstInteraction, { passive: true });
+      });
+    }
+
+    function removeAutoPlayUnlockers() {
+      ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
+        window.removeEventListener(evt, unlockOnFirstInteraction);
+      });
+    }
+
     // Web Audio API 走秀沉浸重音
     function playCatwalkThud() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
@@ -898,10 +942,23 @@
       bottleContainer.style.transform = 'translateY(15px) scale(0.95)';
 
       setTimeout(() => {
-        // 智慧相容多種副檔名與根目錄/assets目錄
+        // 圖片優先載入 .png，若尚未替換則自動退回 .jpg，並支援 assets/ 目錄
         bottleContainer.innerHTML = `
           <img src="${wine.img}" alt="${wine.nameCn}" 
-               onerror="if(!this.dataset.retried){this.dataset.retried='1'; this.src='assets/${wine.img}';} else if(this.src.indexOf('.jpg')!==-1 && !this.dataset.pngRetried){this.dataset.pngRetried='1'; this.src='${wine.img}.jpg';} else { this.parentElement.innerHTML='<div class=\'bottle-placeholder\'><strong>${wine.look}</strong><p style=\'font-size:12px;margin-top:8px;\'>${wine.nameCn}</p></div>'; }">
+               onerror="
+                if (!this.dataset.step) {
+                  this.dataset.step = '1';
+                  this.src = 'assets/' + '${wine.img}';
+                } else if (this.dataset.step === '1') {
+                  this.dataset.step = '2';
+                  this.src = '${wine.img.replace(/\.png$/i, '.jpg')}';
+                } else if (this.dataset.step === '2') {
+                  this.dataset.step = '3';
+                  this.src = 'assets/' + '${wine.img.replace(/\.png$/i, '.jpg')}';
+                } else {
+                  this.parentElement.innerHTML='<div class=\'bottle-placeholder\'><strong>${wine.look}</strong><p style=\'font-size:12px;margin-top:8px;\'>${wine.nameCn}</p></div>';
+                }
+               ">
         `;
         bottleContainer.style.opacity = '1';
         bottleContainer.style.transform = 'translateY(0) scale(1)';
@@ -914,7 +971,6 @@
         }
       });
 
-      // 重置 6 秒進度條與倒數計時
       resetProgress();
     }
 
@@ -970,7 +1026,7 @@
 
     autoPlayBtn.addEventListener('click', toggleAutoPlay);
 
-    // 滑鼠懸停時自動暫停 (方便使用者閱讀)，移開時繼續
+    // 滑鼠懸停暫停
     runwayStage.addEventListener('mouseenter', () => {
       if (isAutoPlay) {
         cancelAnimationFrame(progressAnimFrame);
@@ -1002,13 +1058,8 @@
     }
 
     // 控制按鈕
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      prevLook();
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      nextLook();
-    });
+    document.getElementById('prevBtn').addEventListener('click', prevLook);
+    document.getElementById('nextBtn').addEventListener('click', nextLook);
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') nextLook();
@@ -1019,21 +1070,10 @@
       }
     });
 
-    // 背景音樂
-    const bgm = document.getElementById('runwayBgm');
-    const bgmBtn = document.getElementById('bgmToggle');
-    const bgmLabel = document.getElementById('bgmLabel');
-    let isBgmPlaying = false;
-
+    // 手動 BGM 開關
     bgmBtn.addEventListener('click', () => {
       if (!isBgmPlaying) {
-        bgm.play().then(() => {
-          isBgmPlaying = true;
-          bgmBtn.classList.add('playing');
-          bgmLabel.textContent = 'AUDIO [ON]';
-        }).catch(err => {
-          alert('請確認音檔已上傳至根目錄或 assets 目錄！');
-        });
+        startMusic();
       } else {
         bgm.pause();
         isBgmPlaying = false;
@@ -1052,7 +1092,6 @@
       const current = runwayCollection[currentIndex];
       selectedWineInfo.textContent = `當前洽詢項目：${current.look} - ${current.nameCn} (${current.price}/瓶)`;
       inquiryModal.style.display = 'flex';
-      // 開啟預約視窗時自動暫停輪播
       if (isAutoPlay) cancelAnimationFrame(progressAnimFrame);
     });
 
@@ -1068,9 +1107,13 @@
       }
     });
 
-    // 啟動首頁
+    // 頁面加載完成後啟動
     initFilmstrip();
     renderLook(0, false);
+
+    // 強制嘗試開播音樂 + 監聽任意第一次互動立即開播
+    startMusic();
+    addAutoPlayUnlockers();
   </script>
 </body>
 </html>
